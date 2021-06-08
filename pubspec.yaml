@@ -55,7 +55,10 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   assets:
-    - assets/Image/icons8_hospital.ico
+    - assets/Image/icons8_clinic_64.png
+    - assets/Image/bloodmap.ico
+    - assets/Image/doctormsap.ico
+    - assets/Image/pharmacymap.ico
     - assets/Image/labaratory.jpg
     - assets/Image/center1.jpg
     - assets/Image/center2.jpg
