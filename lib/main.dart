@@ -1,8 +1,8 @@
 //import 'package:d_details_ui/Screens/home_page.dart';
 import 'package:flutter_app_mab/ui/logIn.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_mab/ui/mapScreen.dart';
 //import 'package:parse_server_sdk/parse_server_sdk.dart';
+
 
 // I'm Rawan
 
@@ -23,9 +23,12 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: LoginScreen());
+    return MaterialApp(debugShowCheckedModeBanner: false,
+        home: LoginScreen());
   }
 }
 

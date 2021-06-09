@@ -1,5 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'AddPharmacy.dart';
 import 'home_page.dart';
 import 'logIn.dart';
 
@@ -325,6 +326,17 @@ class pharmacy_pharmacyState extends State<pharmacy> {
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.add,
+          color: Color(0xff453097),
+        ),
+        onPressed: (){
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => AddPharmacy()));
+        },
+        backgroundColor: Colors.white,
       ),
       bottomNavigationBar: CurvedNavigationBar(
         //  key: _bottomNavigationKey,

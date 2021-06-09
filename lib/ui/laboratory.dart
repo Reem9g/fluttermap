@@ -1,5 +1,8 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:flutter_app_mab/model/laboratory.dart';
+import 'package:flutter_app_mab/ui/AddLab.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_mab/utils/database_helper.dart';
 import 'home_page.dart';
 import 'logIn.dart';
 
@@ -9,6 +12,22 @@ class laboratory extends StatefulWidget {
 }
 
 class laboratory_laboratoryState extends State<laboratory> {
+  List<Laboratory> items = List();
+  DatabaseHelper db = new DatabaseHelper();
+
+  @override
+  void initState() {
+    super.initState();
+    db.getAllLaboratorys().then((laboratorys){
+      setState(() {
+        laboratorys.forEach((laboratory){
+          items.add(Laboratory.fromMap(laboratory));
+        });
+      });
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,140 +86,118 @@ class laboratory_laboratoryState extends State<laboratory> {
             ],
           ),
           Container(
-            height: MediaQuery.of(context).size.height - 183,
-            decoration: BoxDecoration(
-              color: Colors.white,
-            ),
-            child: ListView(
-              children: <Widget>[
-                Stack(
-                  children: <Widget>[
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          Image.asset('assets/Image/blood.ico'),
-                        ],
-                      ),
-                      margin: EdgeInsets.only(top: 50, right: 30, left: 30),
-                      padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Color(0xff453097),
-                      ),
-                    ),
-                    Container(
-                      child: Row(
-                        children: <Widget>[
-                          Column(
+              height: MediaQuery.of(context).size.height - 183,
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: ListView.builder(
+                  itemCount: items.length,
+                  padding: const EdgeInsets.all(15.0),
+                  itemBuilder: (context, position) {
+                    return Stack(
+                      children: <Widget>[
+                        Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
-                              Row(
+                              Image.asset('assets/Image/blood.ico'),
+                            ],
+                          ),
+                          margin: EdgeInsets.only(top: 50, right: 30, left: 30),
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Color(0xff453097),
+                          ),
+                        ),
+                        Container(
+                          child: Row(
+                            children: <Widget>[
+                              Column(
                                 children: <Widget>[
-                                  Text('  From:',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
-                                  Text('  8:00 AM '),
+                                  Row(
+                                    children: <Widget>[
+                                      Text('  From:',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold)),
+                                      Text('${items[position].from}'),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: <Widget>[
+                                      Text('  To:',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold)),
+                                      Text('${items[position].to}'),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      IconButton(
+                                        icon: Icon(
+                                          Icons.edit,
+                                          color: Colors.blueAccent,
+                                        ),
+                                        onPressed: () => _navigateToLaortory(
+                                            context, items[position]),
+                                      ),
+                                      IconButton(
+                                          icon: Icon(
+                                            Icons.delete,
+                                            color: Colors.red,
+                                          ),
+                                          onPressed: () => _deleteLabortory(
+                                              context,
+                                              items[position],
+                                              position))
+                                    ],
+                                  )
                                 ],
                               ),
-                              Row(
-                                children: <Widget>[
-                                  Text('  To:',
+                              Expanded(
+                                child: ListTile(
+                                    title: Text(
+                                      '${items[position].name}',
+                                      textAlign: TextAlign.right,
                                       style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
-                                  Text('     11:00 PM '),
-                                ],
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    subtitle: Column(
+                                      children: [
+                                        Text(
+                                          '${items[position].phone}',
+                                          textAlign: TextAlign.right,
+                                        ),
+                                        Text(
+                                          '${items[position].address}',
+                                          textAlign: TextAlign.right,
+                                        ),
+                                      ],
+                                    )),
                               ),
                             ],
                           ),
-                          Expanded(
-                            child: ListTile(
-                              title: Text(
-                                'مخبر نقابة المعلمين حلب الجديدة',
-                                textAlign: TextAlign.right,
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              subtitle: Text(
-                                '2273908',
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      margin: EdgeInsets.only(top: 60, right: 100, left: 30),
-                      padding: EdgeInsets.all(1),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(3),
-                          color: Color(0xffd7d6e6)),
-                    ),
-                  ],
-                ),
-                Stack(
-                  children: <Widget>[
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          Image.asset('assets/Image/blood.ico'),
-                        ],
-                      ),
-                      margin: EdgeInsets.only(top: 30, right: 30, left: 30),
-                      padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Color(0xff453097),
-                      ),
-                    ),
-                    Container(
-                      child: Row(
-                        children: <Widget>[
-                          Column(
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Text('  From:',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
-                                  Text('  8:00 AM '),
-                                ],
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Text('  To:',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
-                                  Text('     11:00 PM '),
-                                ],
-                              ),
-                            ],
-                          ),
-                          Expanded(
-                            child: ListTile(
-                              title: Text(
-                                'مخبر نقابة المعلمين الاسماعيلية',
-                                textAlign: TextAlign.right,
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              subtitle: Text(
-                                '2273908',
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      margin: EdgeInsets.only(top: 40, right: 100, left: 30),
-                      padding: EdgeInsets.all(1),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(3),
-                          color: Color(0xffd7d6e6)),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
+                          margin:
+                              EdgeInsets.only(top: 60, right: 100, left: 30),
+                          padding: EdgeInsets.all(1),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(3),
+                              color: Color(0xffd7d6e6)),
+                        ),
+                      ],
+                    );
+                  })),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          _createNewLabortory(context);
+        },
+        backgroundColor: Color(0xff453097),
       ),
       bottomNavigationBar: CurvedNavigationBar(
         //  key: _bottomNavigationKey,
@@ -208,7 +205,8 @@ class laboratory_laboratoryState extends State<laboratory> {
         height: 55.0,
         items: <Widget>[
           GestureDetector(
-            child: Icon(Icons.stay_current_portrait, color: Colors.white, size: 30),
+            child: Icon(Icons.stay_current_portrait,
+                color: Colors.white, size: 30),
             // onTap: ,
           ),
           GestureDetector(
@@ -218,8 +216,8 @@ class laboratory_laboratoryState extends State<laboratory> {
           GestureDetector(
             child: Icon(Icons.home_outlined, color: Colors.white, size: 30),
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Home()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Home()));
             },
           ),
           GestureDetector(
@@ -243,5 +241,51 @@ class laboratory_laboratoryState extends State<laboratory> {
         letIndexChange: (index) => true,
       ),
     );
+  }
+
+  _deleteLabortory(
+      BuildContext context, Laboratory laboratory, int position) async {
+    db.deleteLaboratory(laboratory.id).then((laboratorys) {
+      setState(() {
+        items.removeAt(position);
+      });
+    });
+  }
+
+  void _navigateToLaortory(BuildContext context, Laboratory laboratory) async {
+    String result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => AddLab(laboratory)),
+    );
+
+    if (result == 'update') {
+      db.getAllLaboratorys().then((laboratorys) {
+        setState(() {
+          items.clear();
+          laboratorys.forEach((laboratory) {
+            items.add(Laboratory.fromMap(laboratory));
+          });
+        });
+      });
+    }
+  }
+
+  void _createNewLabortory(BuildContext context) async {
+    String result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => AddLab(Laboratory('', '', '', '', ''))),
+    );
+
+    if (result == 'save') {
+      db.getAllLaboratorys().then((laboratorys) {
+        setState(() {
+          items.clear();
+          laboratorys.forEach((laboratory) {
+            items.add(Laboratory.fromMap(laboratory));
+          });
+        });
+      });
+    }
   }
 }

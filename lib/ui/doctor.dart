@@ -2,6 +2,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mab/ui/spcialized.dart';
 import 'package:flutter_app_mab/ui/detailDoctor.dart';
+import 'AddSpec.dart';
 import 'home_page.dart';
 import 'logIn.dart';
 class D_details extends StatefulWidget {
@@ -267,6 +268,17 @@ class stateD_details extends State<D_details> {
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.add,
+          color: Color(0xff453097),
+        ),
+        onPressed: (){
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => AddSpec()));
+        },
+        backgroundColor: Colors.white,
       ),
       bottomNavigationBar: CurvedNavigationBar(
         //  key: _bottomNavigationKey,

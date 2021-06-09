@@ -2,6 +2,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'AddCenter.dart';
 import 'home_page.dart';
 import 'logIn.dart';
 
@@ -170,6 +171,17 @@ class centerCards extends StatelessWidget {
               )
           )
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+        onPressed: (){
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => AddCenters()));
+        },
+        backgroundColor: Color(0xff453097),
       ),
       bottomNavigationBar: CurvedNavigationBar(
         //  key: _bottomNavigationKey,
