@@ -1,5 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_mab/model/pharmacy.dart';
+import 'package:flutter_app_mab/utils/database_helper_phar.dart';
 import 'AddPharmacy.dart';
 import 'home_page.dart';
 import 'logIn.dart';
@@ -10,6 +12,21 @@ class pharmacy extends StatefulWidget {
 }
 
 class pharmacy_pharmacyState extends State<pharmacy> {
+  List<Pharmacy> items = List();
+  DatabaseHelperPhar db = new DatabaseHelperPhar();
+
+  @override
+  void initState() {
+    super.initState();
+    db.getAllPharmacys().then((pharmacys) {
+      setState(() {
+        pharmacys.forEach((pharmacy) {
+          items.add(Pharmacy.fromMap(pharmacy));
+        });
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,10 +69,10 @@ class pharmacy_pharmacyState extends State<pharmacy> {
                                   borderRadius: BorderRadius.circular(50)),
                               focusedBorder: OutlineInputBorder(
                                   borderSide:
-                                  BorderSide(color: Color(0xff453097)),
+                                      BorderSide(color: Color(0xff453097)),
                                   borderRadius: BorderRadius.circular(50)),
                               prefixIcon:
-                              Icon(Icons.search, color: Color(0xff453097)),
+                                  Icon(Icons.search, color: Color(0xff453097)),
                               hintText: "بحث ",
                             ),
                           ),
@@ -67,264 +84,109 @@ class pharmacy_pharmacyState extends State<pharmacy> {
               )
             ],
           ),
-          Container(
-            height: MediaQuery.of(context).size.height - 173,
-            decoration: BoxDecoration(
-              color: Colors.white,
-            ),
-            child: ListView(
-              children: <Widget>[
-                Stack(
-                  children: <Widget>[
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          Image.asset('assets/Image/pharmacy.ico'),
-                        ],
-                      ),
-                      margin: EdgeInsets.only(top: 10, right: 30, left: 30),
-                      padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Color(0xff453097),
-                      ),
-                    ),
-                    Container(
-                      child: Row(
-                        children: <Widget>[
-                          Column(
+          Expanded(
+              child: ListView.builder(
+                  itemCount: items.length,
+                //  padding: const EdgeInsets.all(5.0),
+                  itemBuilder: (context, position) {
+                    return Stack(
+                      children: <Widget>[
+                        Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
-                              Row(
+                              Image.asset('assets/Image/pharmacy.ico'),
+                            ],
+                          ),
+                          margin: EdgeInsets.only(top: 10, right: 30, left: 30),
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Color(0xff453097),
+                          ),
+                        ),
+                        Container(
+                          child: Row(
+                            children: <Widget>[
+                              Column(
                                 children: <Widget>[
-                                  Text('  From:',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
-                                  Text('  8:00 AM '),
+                                  Row(
+                                    children: <Widget>[
+                                      Text('${items[position].from}',),
+                                      Text(' :البدء',
+                                          //  textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold
+                                          )),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: <Widget>[
+                                      Text('${items[position].to}'),
+                                      Text(' :الانتهاء',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold)),
+
+                                    ],
+                                  ),
                                 ],
                               ),
-                              Row(
-                                children: <Widget>[
-                                  Text('  To:',
+                              Expanded(
+                                child: ListTile(
+                                    title: Text(
+                                      '${items[position].name}',
+                                      textAlign: TextAlign.right,
                                       style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
-                                  Text('     11:00 PM '),
-                                ],
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    subtitle: Column(
+                                      children: [
+                                        Text(
+                                          '${items[position].phone}',
+                                          textAlign: TextAlign.right,
+                                        ),
+                                        Text(
+                                          '${items[position].address}',
+                                          textAlign: TextAlign.right,
+                                        ),
+                                      ],
+                                    )),
                               ),
                             ],
                           ),
-                          Expanded(
-                            child: ListTile(
-                              title: Text(
-                                'صيدلية الجميلية',
-                                textAlign: TextAlign.right,
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              subtitle: Text(
-                                '2273908',
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      margin: EdgeInsets.only(top: 10, right: 90, left: 30),
-                      padding: EdgeInsets.all(1),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(3),
-                          color: Color(0xffd7d6e6)),
-                    ),
-                  ],
-                ),
-                Stack(
-                  children: <Widget>[
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          Image.asset('assets/Image/pharmacy.ico'),
-                        ],
-                      ),
-                      margin: EdgeInsets.only(top: 30, right: 30, left: 30),
-                      padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Color(0xff453097),
-                      ),
-                    ),
-                    Container(
-                      child: Row(
-                        children: <Widget>[
-                          Column(
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Text('  From:',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
-                                  Text('  8:00 AM '),
-                                ],
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Text('  To:',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
-                                  Text('     11:00 PM '),
-                                ],
-                              ),
+                          margin: EdgeInsets.only(top: 16.5, right: 88, left: 35),
+                          padding: EdgeInsets.all(1.5),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(3),
+                              color: Color(0xffd7d6e6)),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right:285),
+                          child: Column(
+                            children: [
+                                  IconButton(
+                                    icon: Icon(
+                                      Icons.edit,
+                                      color: Color(0xff6D6298)
+                                    ),
+                                    onPressed: () => _navigateToPharmacy(
+                                        context, items[position]),
+                                  ),
+                                  IconButton(
+                                      icon: Icon(
+                                        Icons.delete,
+                                        color: Color(0xff6D6298),
+                                      ),
+                                      onPressed: () => _deletePharmacy(
+                                          context,
+                                          items[position],
+                                          position))
                             ],
                           ),
-                          Expanded(
-                            child: ListTile(
-                              title: Text(
-                                'صيدلية حلب الجديدة',
-                                textAlign: TextAlign.right,
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              subtitle: Text(
-                                '2273908',
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      margin: EdgeInsets.only(top: 30, right: 90, left: 30),
-                      padding: EdgeInsets.all(1),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(3),
-                          color: Color(0xffd7d6e6)),
-                    ),
-                  ],
-                ),
-                Stack(
-                  children: <Widget>[
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          Image.asset('assets/Image/pharmacy.ico'),
-                        ],
-                      ),
-                      margin: EdgeInsets.only(top: 30, right: 30, left: 30),
-                      padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Color(0xff453097),
-                      ),
-                    ),
-                    Container(
-                      child: Row(
-                        children: <Widget>[
-                          Column(
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Text('  From:',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
-                                  Text('  8:00 AM '),
-                                ],
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Text('  To:',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
-                                  Text('     11:00 PM '),
-                                ],
-                              ),
-                            ],
-                          ),
-                          Expanded(
-                            child: ListTile(
-                              title: Text(
-                                'صيدلية النيرب',
-                                textAlign: TextAlign.right,
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              subtitle: Text(
-                                '2273908',
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      margin: EdgeInsets.only(top: 30, right: 90, left: 30),
-                      padding: EdgeInsets.all(1),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(3),
-                          color: Color(0xffd7d6e6)),
-                    ),
-                  ],
-                ),
-                Stack(
-                  children: <Widget>[
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          Image.asset('assets/Image/pharmacy.ico'),
-                        ],
-                      ),
-                      margin: EdgeInsets.only(top: 30, right: 30, left: 30),
-                      padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Color(0xff453097),
-                      ),
-                    ),
-                    Container(
-                      child: Row(
-                        children: <Widget>[
-                          Column(
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Text('  From:',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
-                                  Text('  8:00 AM '),
-                                ],
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Text('  To:',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
-                                  Text('     11:00 PM '),
-                                ],
-                              ),
-                            ],
-                          ),
-                          Expanded(
-                            child: ListTile(
-                              title: Text(
-                                'صيدلية السفيرة',
-                                textAlign: TextAlign.right,
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              subtitle: Text(
-                                '2273908',
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      margin: EdgeInsets.only(top: 30, right: 90, left: 30),
-                      padding: EdgeInsets.all(1),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(3),
-                          color: Color(0xffd7d6e6)),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
+                        )
+                      ],
+                    );
+                  })),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -332,9 +194,8 @@ class pharmacy_pharmacyState extends State<pharmacy> {
           Icons.add,
           color: Color(0xff453097),
         ),
-        onPressed: (){
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => AddPharmacy()));
+        onPressed: () {
+          _createNewPharmacy(context);
         },
         backgroundColor: Colors.white,
       ),
@@ -344,7 +205,8 @@ class pharmacy_pharmacyState extends State<pharmacy> {
         height: 55.0,
         items: <Widget>[
           GestureDetector(
-            child: Icon(Icons.stay_current_portrait, color: Colors.white, size: 30),
+            child: Icon(Icons.stay_current_portrait,
+                color: Colors.white, size: 30),
             // onTap: ,
           ),
           GestureDetector(
@@ -354,8 +216,8 @@ class pharmacy_pharmacyState extends State<pharmacy> {
           GestureDetector(
             child: Icon(Icons.home_outlined, color: Colors.white, size: 30),
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Home()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Home()));
             },
           ),
           GestureDetector(
@@ -379,5 +241,50 @@ class pharmacy_pharmacyState extends State<pharmacy> {
         letIndexChange: (index) => true,
       ),
     );
+  }
+
+  _deletePharmacy(BuildContext context, Pharmacy pharmacy, int position) async {
+    db.deletePharmacy(pharmacy.id).then((pharmacys) {
+      setState(() {
+        items.removeAt(position);
+      });
+    });
+  }
+
+  void _navigateToPharmacy(BuildContext context, Pharmacy pharmacy) async {
+    String result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => AddPharmacy(pharmacy)),
+    );
+
+    if (result == 'update') {
+      db.getAllPharmacys().then((pharmacys) {
+        setState(() {
+          items.clear();
+          pharmacys.forEach((pharmacy) {
+            items.add(Pharmacy.fromMap(pharmacy));
+          });
+        });
+      });
+    }
+  }
+
+  void _createNewPharmacy(BuildContext context) async {
+    String result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => AddPharmacy(Pharmacy('', '', '', '', ''))),
+    );
+
+    if (result == 'save') {
+      db.getAllPharmacys().then((pharmacys) {
+        setState(() {
+          items.clear();
+          pharmacys.forEach((pharmacy) {
+            items.add(Pharmacy.fromMap(pharmacy));
+          });
+        });
+      });
+    }
   }
 }
