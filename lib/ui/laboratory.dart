@@ -85,14 +85,10 @@ class laboratory_laboratoryState extends State<laboratory> {
               )
             ],
           ),
-          Container(
-              height: MediaQuery.of(context).size.height - 183,
-              decoration: BoxDecoration(
-                color: Colors.white,
-              ),
+          Expanded(
               child: ListView.builder(
                   itemCount: items.length,
-                  padding: const EdgeInsets.all(15.0),
+                //  padding: const EdgeInsets.all(15.0),
                   itemBuilder: (context, position) {
                     return Stack(
                       children: <Widget>[
@@ -103,7 +99,7 @@ class laboratory_laboratoryState extends State<laboratory> {
                               Image.asset('assets/Image/blood.ico'),
                             ],
                           ),
-                          margin: EdgeInsets.only(top: 50, right: 30, left: 30),
+                          margin: EdgeInsets.only(top: 10, right: 30, left: 30),
                           padding: EdgeInsets.all(5),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
@@ -117,41 +113,23 @@ class laboratory_laboratoryState extends State<laboratory> {
                                 children: <Widget>[
                                   Row(
                                     children: <Widget>[
-                                      Text('  From:',
+                                      Text('${items[position].from}',),
+                                      Text(' :البدء',
+                                        //  textAlign: TextAlign.left,
                                           style: TextStyle(
-                                              fontWeight: FontWeight.bold)),
-                                      Text('${items[position].from}'),
+                                              fontWeight: FontWeight.bold
+                                          )),
                                     ],
                                   ),
                                   Row(
                                     children: <Widget>[
-                                      Text('  To:',
+                                      Text('${items[position].to}'),
+                                      Text(' :الانتهاء',
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold)),
-                                      Text('${items[position].to}'),
+
                                     ],
                                   ),
-                                  Row(
-                                    children: [
-                                      IconButton(
-                                        icon: Icon(
-                                          Icons.edit,
-                                          color: Colors.blueAccent,
-                                        ),
-                                        onPressed: () => _navigateToLaortory(
-                                            context, items[position]),
-                                      ),
-                                      IconButton(
-                                          icon: Icon(
-                                            Icons.delete,
-                                            color: Colors.red,
-                                          ),
-                                          onPressed: () => _deleteLabortory(
-                                              context,
-                                              items[position],
-                                              position))
-                                    ],
-                                  )
                                 ],
                               ),
                               Expanded(
@@ -178,15 +156,40 @@ class laboratory_laboratoryState extends State<laboratory> {
                             ],
                           ),
                           margin:
-                              EdgeInsets.only(top: 60, right: 100, left: 30),
+                              EdgeInsets.only(top: 20, right: 100, left: 30),
                           padding: EdgeInsets.all(1),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(3),
                               color: Color(0xffd7d6e6)),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.only(right:285),
+                          child: Column(
+                            children: [
+                              IconButton(
+                                icon: Icon(
+                                    Icons.edit,
+                                    color: Color(0xff6D6298)
+                                ),
+                                onPressed: () => _navigateToLaortory(
+                                    context, items[position]),
+                              ),
+                              IconButton(
+                                  icon: Icon(
+                                    Icons.delete,
+                                    color: Color(0xff6D6298),
+                                  ),
+                                  onPressed: () => _deleteLabortory(
+                                      context,
+                                      items[position],
+                                      position))
+                            ],
+                          ),
+                        )
                       ],
                     );
-                  })),
+                  })
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(

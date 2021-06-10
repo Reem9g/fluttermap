@@ -1,8 +1,10 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_mab/model/spcialized.dart';
+import 'package:flutter_app_mab/ui/AddSpec.dart';
 import 'package:flutter_app_mab/ui/spcialized.dart';
 import 'package:flutter_app_mab/ui/detailDoctor.dart';
-import 'AddSpec.dart';
+import 'package:flutter_app_mab/utils/database_helper_spec.dart';
 import 'home_page.dart';
 import 'logIn.dart';
 class D_details extends StatefulWidget {
@@ -12,7 +14,10 @@ class D_details extends StatefulWidget {
   }
 }
 class stateD_details extends State<D_details> {
-  List tags = [
+  List<Spcialized> items = List();
+  DatabaseHelperSpec db = new DatabaseHelperSpec();
+
+  /*List tags = [
     'قلبية',
     'صدرية',
     'أسنان',
@@ -31,7 +36,7 @@ class stateD_details extends State<D_details> {
     'assets/Image/skin.ico',
     'assets/Image/pregnant.ico',
     'assets/Image/hearing.ico',
-  ];
+  ];*/
   List Names = [
     'د.روان حاج يحيى',
     'د.آية مشلح',
@@ -44,9 +49,21 @@ class stateD_details extends State<D_details> {
   ];
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    db.getAllspcialized().then((spcializeds){
+      setState(() {
+        spcializeds.forEach((spcialized){
+          items.add(Spcialized.fromMap(spcialized));
+        });
+      });
+    });
+  }
   Widget build(BuildContext context) {
     return Scaffold(
-     // resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
       body: Column(
         children: [
@@ -85,10 +102,10 @@ class stateD_details extends State<D_details> {
                                   borderRadius: BorderRadius.circular(50)),
                               focusedBorder: OutlineInputBorder(
                                   borderSide:
-                                      BorderSide(color: Color(0xff453097)),
+                                  BorderSide(color: Color(0xff453097)),
                                   borderRadius: BorderRadius.circular(50)),
                               prefixIcon:
-                                  Icon(Icons.search, color: Color(0xff453097)),
+                              Icon(Icons.search, color: Color(0xff453097)),
                               hintText: "بحث ",
                             ),
                           ),
@@ -107,71 +124,69 @@ class stateD_details extends State<D_details> {
             child:Expanded(
               child: Column(
                 //physics: const ScrollPhysics(),
-               // physics: const AlwaysScrollableScrollPhysics(),
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 15, left: 8, right: 8, bottom: 8),
-                      child: Text(
-                        'الاختصاصات',
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xff4d36ad),
-                        ),
+                // physics: const AlwaysScrollableScrollPhysics(),
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 15, left: 8, right: 8, bottom: 8),
+                    child: Text(
+                      'الاختصاصات',
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xff4d36ad),
                       ),
                     ),
-                    Container(
-                      height: 85,
-                      child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: tags.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Stack(
-                              children: [
-                                // Container that contain the spec
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 5.0,left: 5.0,right: 5.0),
-                                  child: GestureDetector(
-                                    child: Container(
-                                      width: 70,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(15),
-                                          border: Border.all(
-                                            color: Color(0xff4d36ad),
-                                          )),
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 50.0,
-                                            bottom: 5,
-                                            right: 10,
-                                            left: 10),
-                                        child: Text(
-                                          tags[index],
-                                          style: TextStyle(
-                                            color: Color(0xff4d36ad),
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          textAlign: TextAlign.center,
+                  ),
+                  Container(
+                    height: 85,
+                    child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: items.length,
+                        itemBuilder: (context, position) {
+                          return Stack(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 5.0,left: 5.0,right: 5.0),
+                                child: GestureDetector(
+                                  child: Container(
+                                    width: 70,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        border: Border.all(
+                                          color: Color(0xff4d36ad),
+                                        )),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 50.0,
+                                          bottom: 5,
+                                          right: 10,
+                                          left: 10),
+                                      child: Text('${items[position].name}',
+                                        style: TextStyle(
+                                          color: Color(0xff4d36ad),
+                                          fontWeight: FontWeight.bold,
                                         ),
+                                        textAlign: TextAlign.center,
                                       ),
                                     ),
-                                    onTap:  () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => Spc_Doctors(tags[index])));
-                                    },
                                   ),
+                                  onTap:  () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Spc_Doctors(items[position].name)));
+                                  },
                                 ),
-                                // Container that contain the Images
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    left: 20,
-                                  ),
-                                  child: GestureDetector(
+                              ),
+                              // Container that contain the Images
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 20,
+                                ),
+                                /* child: GestureDetector(
                                     child: Container(
                                         margin: EdgeInsets.only(right: 10),
                                         width: 60,
@@ -180,91 +195,92 @@ class stateD_details extends State<D_details> {
                                             borderRadius:
                                                 BorderRadius.all(Radius.circular(15)),
                                             color: Color(0xff4d36ad)),
-                                        child: Image.asset(
+                                       /* child: Image.asset(
                                           Images_Spec[index],
                                           scale: 1.5,
-                                        )),
+                                        )*/
+                                    ),
                                     onTap:  () {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => Spc_Doctors(tags[index])));
+                                              builder: (context) => Spc_Doctors(items[position].name)));
                                     },
-                                  ),
-                                ),
-                              ],
-                            );
-                          }),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left:8.0,right: 8.0,top: 8.0),
-                      child: Text(
-                        'أبرز الأطباء',
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xff4d36ad),
-                        ),
+                                  ),*/
+                              ),
+                            ],
+                          );
+                        }),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left:8.0,right: 8.0,top: 8.0),
+                    child: Text(
+                      'أبرز الأطباء',
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xff4d36ad),
                       ),
                     ),
-                    Container(
-                      height: MediaQuery.of(context).size.height - 371,
-                      child: ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          itemCount: tags.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(left:8.0,right: 8.0,bottom: 8.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(15)),
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      Color(0xff4d36ad),
-                                      Color(0xff6D6298),
-                                    ],
-                                    begin: Alignment.bottomRight,
-                                    end: Alignment.centerLeft,
-                                  ),
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    ListTile(
-                                      title: new Text(
-                                        Names[index],
-                                        textAlign: TextAlign.right,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Color(0xffffffff),
-                                        ),
-                                      ),
-                                      subtitle: new Text(
-                                        tags[index],
-                                        textAlign: TextAlign.right,
-                                        style: TextStyle(
-                                          color: Color(0xffffffff),
-                                        ),
-                                      ),
-                                      //  leading: ,
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    TaskScreen(Names[index],tags[index])));
-                                      },
-                                    ),
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height - 395,
+                    child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        itemCount: items.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(left:8.0,right: 8.0,bottom: 8.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                BorderRadius.all(Radius.circular(15)),
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Color(0xff4d36ad),
+                                    Color(0xff6D6298),
                                   ],
+                                  begin: Alignment.bottomRight,
+                                  end: Alignment.centerLeft,
                                 ),
                               ),
-                            );
-                          }),
-                    ),
-                  ],
-                ),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  ListTile(
+                                    title: new Text(
+                                      Names[index],
+                                      textAlign: TextAlign.right,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xffffffff),
+                                      ),
+                                    ),
+                                    subtitle: new Text(
+                                      items[index].name,
+                                      textAlign: TextAlign.right,
+                                      style: TextStyle(
+                                        color: Color(0xffffffff),
+                                      ),
+                                    ),
+                                    //  leading: ,
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  TaskScreen(Names[index],items[index].name)));
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        }),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -275,14 +291,13 @@ class stateD_details extends State<D_details> {
           color: Color(0xff453097),
         ),
         onPressed: (){
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => AddSpec()));
+          _createNewSpcialized(context);
         },
         backgroundColor: Colors.white,
       ),
       bottomNavigationBar: CurvedNavigationBar(
         //  key: _bottomNavigationKey,
-     //   index: 1,
+        //   index: 1,
         height: 55.0,
         items: <Widget>[
           GestureDetector(
@@ -313,7 +328,7 @@ class stateD_details extends State<D_details> {
         backgroundColor: Colors.white,
         //  animationCurve: Curves.easeInOut,
         //  animationDuration: Duration(milliseconds: 600),
-       /* onTap: (index) {
+        /* onTap: (index) {
           setState(() {
             _page = index;
           });
@@ -321,5 +336,24 @@ class stateD_details extends State<D_details> {
         letIndexChange: (index) => true,
       ),
     );
+  }
+
+  void _createNewSpcialized(BuildContext context) async {
+    String result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => AddSpec(Spcialized(''))),
+    );
+
+    if (result == 'save') {
+      db.getAllspcialized().then((spcializeds) {
+        setState(() {
+          items.clear();
+          spcializeds.forEach((spcialized) {
+            items.add(spcialized.fromMap(spcialized));
+          });
+        });
+      });
+    }
   }
 }

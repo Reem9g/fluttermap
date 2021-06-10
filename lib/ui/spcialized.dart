@@ -2,7 +2,6 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'AddDoctor.dart';
 import 'detailDoctor.dart';
 import 'home_page.dart';
 import 'logIn.dart';
@@ -119,8 +118,7 @@ class stateSpc_Doctors extends State<Spc_Doctors> {
                               color: Color(0xffffffff),
                             ),
                           ),
-                          subtitle: new Text(
-                            '$Spec',
+                          subtitle: new Text('$Spec',
                             textAlign: TextAlign.right,
                             style: TextStyle(
                               color: Color(0xffffffff),
@@ -141,17 +139,6 @@ class stateSpc_Doctors extends State<Spc_Doctors> {
               }),
         ),
       ]),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(
-          Icons.add,
-          color: Color(0xff453097),
-        ),
-        onPressed: (){
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => AddDoctors()));
-        },
-        backgroundColor: Colors.white,
-      ),
       bottomNavigationBar: CurvedNavigationBar(
         //  key: _bottomNavigationKey,
         // index: 1,
