@@ -2,61 +2,33 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'AddCenter.dart';
+import 'package:flutter_app_mab/utils/databasee_helper_center.dart';
+import 'package:flutter_app_mab/model/center.dart';
 import 'home_page.dart';
 import 'logIn.dart';
+import 'package:flutter_app_mab/ui/AddCenter.dart';
 
-// زر البحث
-/**   Stack(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 20.0, top: 35),
-                child: Container(
-                  // margin: EdgeInsets.symmetric(vertical: 10),
-                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                  // width: size.width * 0.8,
-                  //  height: 50,
-                  width: 250,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(55.0)),
-                    color: Color(0xffffffff).withAlpha(50),
-                  ),
-                  child: TextField(
-                    cursorColor: Color(0xffffffff),
-                    decoration: InputDecoration(
-                      //  icon: Icon(Icons.search, color: Color(0xff6CECB3)),
-                      hintText: 'بحث',
-                      hintStyle: TextStyle(
-                        color: Colors.white,
-                        // fontWeight: FontWeight.bold,
-                      ),
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 230, top: 35),
-                child: Container(
-                    width: 60,
-                    height: 50,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
-                        color: Colors.white),
-                    child: FlatButton(
-                        onPressed: null,
-                        child: Icon(
-                          Icons.search,
-                          color: Color(0xff453097),
-                        ))),
-              ),
-            ],
-          ),
-* */
-
-class centerCards extends StatelessWidget {
+class centerCards extends StatefulWidget {
   @override
+  centerCards_state createState() => centerCards_state();
+}
+
+class centerCards_state extends State<centerCards> {
+  List<Centerr> items = List();
+  DatabaseHelperCenter db = new DatabaseHelperCenter();
+
+  @override
+  void initState() {
+    super.initState();
+    db.getAllCenters().then((centers) {
+      setState(() {
+        centers.forEach((center) {
+          items.add(Centerr.fromMap(center));
+        });
+      });
+    });
+  }
+
   List<StaggeredTile> _cardTile = const <StaggeredTile>[
     const StaggeredTile.count(5, 2.5),
     StaggeredTile.count(2, 4),
@@ -74,8 +46,7 @@ class centerCards extends StatelessWidget {
         gridImage: 'assets/Image/center1.jpg',
         text: 'مركز                                           الفرقان'),
     const _BackGroundTile(
-        gridImage: 'assets/Image/center2.jpg',
-        text: 'مركز  بستان  القصر'),
+        gridImage: 'assets/Image/center2.jpg', text: 'مركز  بستان  القصر'),
     const _BackGroundTile(
         gridImage: 'assets/Image/center3.jpg', text: 'مركز           المرديان'),
     const _BackGroundTile(
@@ -87,6 +58,7 @@ class centerCards extends StatelessWidget {
         gridImage: 'assets/Image/center6.jpg', text: 'مركز الشعار'),
   ];
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -152,24 +124,42 @@ class centerCards extends StatelessWidget {
                   Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left:20.0,right: 20.0),
+                        padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                         child: Container(
                           color: Colors.white,
-                          height: MediaQuery.of(context).size.height -175,
-                          child: StaggeredGridView.count(
-                              primary: false,
+                          height: MediaQuery.of(context).size.height - 175,
+                          child:StaggeredGridView.countBuilder(
+                            crossAxisCount: 4,
+                              itemCount: 10,
+                              itemBuilder: (BuildContext context , int index) =>
+                                  Container(
+                                    width: 100,
+                                    height: 100,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: NetworkImage('https://picsum.photos/500/500?random=$index'),
+                                        fit: BoxFit.fill,
+                                      ),
+                                      shape: BoxShape.rectangle,
+                                    ),
+                                    child: Text('${items[index].name}')
+                                  ),
+                              staggeredTileBuilder: (int index)=>
+                                  StaggeredTile.count(2, index.isEven ? 3:2),
+                              mainAxisSpacing: 4.0,
+                              crossAxisSpacing: 4.0
+                            /* primary: false,
                               crossAxisCount: 4,
                               staggeredTiles: _cardTile,
                               children: _listTile,
-                              mainAxisSpacing: 4.0,
-                              crossAxisSpacing: 4.0),
+                              */
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ],
-              )
-          )
+              ))
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -177,30 +167,30 @@ class centerCards extends StatelessWidget {
           Icons.add,
           color: Colors.white,
         ),
-        onPressed: (){
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => AddCenters()));
+        onPressed: () {
+          _createNewLabortoryCenter(context);
         },
         backgroundColor: Color(0xff453097),
       ),
       bottomNavigationBar: CurvedNavigationBar(
-        //  key: _bottomNavigationKey,
-        // index: 1,
+//  key: _bottomNavigationKey,
+// index: 1,
         height: 55.0,
         items: <Widget>[
           GestureDetector(
-            child: Icon(Icons.stay_current_portrait, color: Colors.white, size: 30),
-            // onTap: ,
+            child: Icon(Icons.stay_current_portrait,
+                color: Colors.white, size: 30),
+// onTap: ,
           ),
           GestureDetector(
             child: Icon(Icons.location_pin, color: Colors.white, size: 30),
-            // onTap: ,
+// onTap: ,
           ),
           GestureDetector(
             child: Icon(Icons.home_outlined, color: Colors.white, size: 30),
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Home()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Home()));
             },
           ),
           GestureDetector(
@@ -212,11 +202,11 @@ class centerCards extends StatelessWidget {
           ),
         ],
         color: Color(0xff453097),
-        // buttonBackgroundColor: Color(0xff453097),
+// buttonBackgroundColor: Color(0xff453097),
         backgroundColor: Colors.white,
-        //  animationCurve: Curves.easeInOut,
-        //  animationDuration: Duration(milliseconds: 600),
-      /*  onTap: (index) {
+//  animationCurve: Curves.easeInOut,
+//  animationDuration: Duration(milliseconds: 600),
+/*  onTap: (index) {
           setState(() {
             _page = index;
           });
@@ -225,7 +215,53 @@ class centerCards extends StatelessWidget {
       ),
     );
   }
+  _deleteCenter(
+      BuildContext context, Centerr center, int position) async {
+    db.deleteCenter(center.id).then((centers) {
+      setState(() {
+        items.removeAt(position);
+      });
+    });
+  }
+
+  void _navigateToCenter(BuildContext context, Centerr center) async {
+    String result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => AddCenters(center)),
+    );
+
+    if (result == 'update') {
+      db.getAllCenters().then((centers) {
+        setState(() {
+          items.clear();
+          centers.forEach((center) {
+            items.add(Centerr.fromMap(center));
+          });
+        });
+      });
+    }
+  }
+
+  void _createNewLabortoryCenter(BuildContext context) async {
+    String result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => AddCenters(Centerr('', '', '', '', ''))),
+    );
+
+    if (result == 'save') {
+      db.getAllCenters().then((centers) {
+        setState(() {
+          items.clear();
+          centers.forEach((center) {
+            items.add(Centerr.fromMap(center));
+          });
+        });
+      });
+    }
+  }
 }
+
 
 class _BackGroundTile extends StatelessWidget {
   const _BackGroundTile({this.backgroundColor, this.gridImage, this.text});
