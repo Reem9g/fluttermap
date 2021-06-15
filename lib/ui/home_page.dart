@@ -7,6 +7,7 @@ import 'package:flutter_app_mab/ui/laboratory.dart';
 import 'package:flutter_app_mab/ui/center.dart';
 import 'package:flutter_app_mab/ui/doctor.dart';
 import 'logIn.dart';
+import 'package:google_fonts/google_fonts.dart';
 // Main Code
 /*class Home extends StatefulWidget {
   @override
@@ -276,181 +277,196 @@ class Home_HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        actions: <Widget>[Container()],
+        backgroundColor: Colors.white,
+        elevation: 0,
+        title: Container(
+          padding: EdgeInsets.only(top: 5),
+          child:
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: EdgeInsets.fromLTRB(10, 20, 10, 25),
+                child: TextFormField(
+                  cursorColor: Color(0xff4d36ad),
+                  textInputAction: TextInputAction.search,
+                  // controller: _doctorName,
+                  decoration: InputDecoration(
+                    contentPadding:
+                    EdgeInsets.only(left: 20, top: 10, bottom: 10),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      borderSide: BorderSide.none,
+                    ),
+                    filled: true,
+                    fillColor: Color(0xffd7d6e6),
+                    hintText: 'بحث',
+                    hintStyle: GoogleFonts.lato(
+                      color: Color(0xff453097).withAlpha(50),
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800,
+                    ),
+                    suffixIcon: Container(
+                      decoration: BoxDecoration(
+                        color: //Colors.blue[900].withOpacity(0.9),
+                        Color(0xff6D6298),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: IconButton(
+                        iconSize: 20,
+                        splashRadius: 20,
+                        color: Colors.white,
+                        icon: Icon(Icons.search),
+                        onPressed: () {},
+                      ),
+                    ),
+                  ),
+                  style: GoogleFonts.lato(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
+                  ),
+                  /* onFieldSubmitted: (String value) {
+                setState(
+                      () {
+                    value.length == 0
+                        ? Container()
+                        : Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SearchList(
+                          searchKey: value,
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },*/
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: Column(
         children: <Widget>[
-          Stack(
-            children: <Widget>[
-              Container(
-                height: 110,
-                decoration: BoxDecoration(
-                  color: Color(0xff453097),
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(70),
-                      bottomRight: Radius.circular(70)),
-                ),
+          GestureDetector(
+            child: Container(
+              margin: EdgeInsets.only(top: 5, right: 50),
+              padding: EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(70),
+                    topRight: Radius.circular(70)),
+                color: Color(0xff4d36ad).withAlpha(75),
               ),
-              Positioned(
-                top: 40.0,
-                left: 0.0,
-                right: 0.0,
-                child: Container(
-                  height: 50,
-                  padding: EdgeInsets.symmetric(horizontal: 40.0),
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: Colors.white),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            textAlign: TextAlign.right,
-                            decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Color(0xff453097),
-                                  ),
-                                  borderRadius: BorderRadius.circular(50)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Color(0xff453097)),
-                                  borderRadius: BorderRadius.circular(50)),
-                              prefixIcon:
-                                  Icon(Icons.search, color: Color(0xff453097)),
-                              hintText: "بحث ",
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+              child: ListTile(
+                title: Text(
+                  'المراكز',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.right,
                 ),
-              )
-            ],
-          ),
-          Container(
-            color: Colors.white,
-            height: MediaQuery.of(context).size.height - 165,
-            child: ListView(
-              children: <Widget>[
-                GestureDetector(
-                  child: Container(
-                    margin: EdgeInsets.only(top: 5, right: 50),
-                    padding: EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(70),
-                          topRight: Radius.circular(70)),
-                      color: Color(0xff4d36ad).withAlpha(75),
-                    ),
-                    child: ListTile(
-                      title: Text(
-                        'المراكز',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.right,
-                      ),
-                      leading: Image.asset('assets/Image/hospital.png'),
-                    ),
-                  ),
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => centerCards()));
-                  },
-                ),
-                GestureDetector(
-                  child: Container(
-                    margin: EdgeInsets.only(top: 30, right: 50),
-                    padding: EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(70),
-                          topRight: Radius.circular(70)),
-                      gradient: LinearGradient(colors: [
-                        Color(0xff4d36ad),
-                        Color(0xff6D6298),
-                      ]),
-                    ),
-                    child: ListTile(
-                      title: Text(
-                        'الأطباء',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.right,
-                      ),
-                      leading: Image.asset('assets/Image/doctor.ico'),
-                    ),
-                  ),
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => D_details()));
-                  },
-                ),
-                GestureDetector(
-                  child: Container(
-                    margin: EdgeInsets.only(top: 30, right: 50),
-                    padding: EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(70),
-                          topRight: Radius.circular(70)),
-                      color: Color(0xff4d36ad).withAlpha(75),
-                    ),
-                    child: ListTile(
-                      title: Text(
-                        'الصيدليات',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.right,
-                      ),
-                      leading: Image.asset('assets/Image/pharmacy.ico'),
-                    ),
-                  ),
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => pharmacy()));
-                  },
-                ),
-                GestureDetector(
-                  child: Container(
-                    margin: EdgeInsets.only(top: 30, right: 50),
-                    padding: EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(70),
-                          topRight: Radius.circular(70)),
-                      gradient: LinearGradient(colors: [
-                        Color(0xff4d36ad),
-                        Color(0xff6D6298),
-                      ]),
-                    ),
-                    child: ListTile(
-                      title: Text(
-                        'المخابر',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.right,
-                      ),
-                      leading: Image.asset('assets/Image/blood.ico'),
-                    ),
-                  ),
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => laboratory()));
-                  },
-                ),
-              ],
+                leading: Image.asset('assets/Image/hospital.png'),
+              ),
             ),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => centerCards()));
+            },
+          ),
+          GestureDetector(
+            child: Container(
+              margin: EdgeInsets.only(top: 30, right: 50),
+              padding: EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(70),
+                    topRight: Radius.circular(70)),
+                gradient: LinearGradient(colors: [
+                  Color(0xff4d36ad),
+                  Color(0xff6D6298),
+                ]),
+              ),
+              child: ListTile(
+                title: Text(
+                  'الأطباء',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.right,
+                ),
+                leading: Image.asset('assets/Image/doctor.ico'),
+              ),
+            ),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => D_details()));
+            },
+          ),
+          GestureDetector(
+            child: Container(
+              margin: EdgeInsets.only(top: 30, right: 50),
+              padding: EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(70),
+                    topRight: Radius.circular(70)),
+                color: Color(0xff4d36ad).withAlpha(75),
+              ),
+              child: ListTile(
+                title: Text(
+                  'الصيدليات',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.right,
+                ),
+                leading: Image.asset('assets/Image/pharmacy.ico'),
+              ),
+            ),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => pharmacy()));
+            },
+          ),
+          GestureDetector(
+            child: Container(
+              margin: EdgeInsets.only(top: 30, right: 50),
+              padding: EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(70),
+                    topRight: Radius.circular(70)),
+                gradient: LinearGradient(colors: [
+                  Color(0xff4d36ad),
+                  Color(0xff6D6298),
+                ]),
+              ),
+              child: ListTile(
+                title: Text(
+                  'المخابر',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.right,
+                ),
+                leading: Image.asset('assets/Image/blood.ico'),
+              ),
+            ),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => laboratory()));
+            },
           ),
         ],
       ),
@@ -485,7 +501,7 @@ class Home_HomeState extends State<Home> {
             },
           ),
         ],
-        color: Color(0xff453097),
+        color: Color(0xff6D6298),
        // buttonBackgroundColor: Colors.red,
         backgroundColor: Color(0xffffffff),
         //  animationCurve: Curves.easeInOut,

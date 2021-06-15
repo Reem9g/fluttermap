@@ -14,7 +14,7 @@ class DatabaseHelperCenter{
   final String columnPhone= 'phone';
   //final String columnLat = 'lat';
   //final String columnLng = 'lng';
-  //final String columnLng = 'img';
+  //final String columnimg = 'img';
 
 
 
@@ -42,8 +42,8 @@ class DatabaseHelperCenter{
   void _onCreate(Database db , int newVersion) async{
     var sql = 'CREATE TABLE $tableCenter ([$columnId] INTEGER PRIMARY KEY,'
         '[$columnName] TEXT , [$columnAddress] TEXT ,'
-        '[$columnFrom] TEXT ,[$columnTo] TEXT ,[$columnPhone] TEXT)';
-    /*'$columnLat Double ,$columnLng Double, $columnimg TEXT'*/
+        '[$columnFrom] TEXT ,[$columnTo] TEXT ,[$columnPhone] TEXT,)';
+    /*'$columnLat Double ,$columnLng Double, [$columnimg] TEXT'*/
     await db.execute(sql);
   }
 
@@ -63,6 +63,7 @@ class DatabaseHelperCenter{
           columnName,columnAddress,
           columnFrom,columnTo,
           columnPhone,//columnLat,columnLng,columnimg
+
         ]
     );
     return result.toList();
@@ -83,7 +84,8 @@ class DatabaseHelperCenter{
         columns: [columnId,
           columnName,columnAddress,
           columnFrom,columnTo,
-          columnPhone,/*columnLat,columnLng,columnimg*/],where: '$columnId = ?',whereArgs: ['id']
+          columnPhone,/*columnLat,columnLng,columnimg*/
+          ],where: '$columnId = ?',whereArgs: ['id']
     );
 
     if(result.length > 0){

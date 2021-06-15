@@ -1,331 +1,12 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_app_mab/utils/databasee_helper_center.dart';
 import 'package:flutter_app_mab/model/center.dart';
 import 'home_page.dart';
 import 'logIn.dart';
 import 'package:flutter_app_mab/ui/AddCenter.dart';
-
-
-// زر البحث
-/**   Stack(
-    children: [
-    Padding(
-    padding: const EdgeInsets.only(left: 20.0, top: 35),
-    child: Container(
-    // margin: EdgeInsets.symmetric(vertical: 10),
-    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-    // width: size.width * 0.8,
-    //  height: 50,
-    width: 250,
-    height: 50,
-    decoration: BoxDecoration(
-    borderRadius: BorderRadius.all(Radius.circular(55.0)),
-    color: Color(0xffffffff).withAlpha(50),
-    ),
-    child: TextField(
-    cursorColor: Color(0xffffffff),
-    decoration: InputDecoration(
-    //  icon: Icon(Icons.search, color: Color(0xff6CECB3)),
-    hintText: 'بحث',
-    hintStyle: TextStyle(
-    color: Colors.white,
-    // fontWeight: FontWeight.bold,
-    ),
-    border: InputBorder.none,
-    ),
-    ),
-    ),
-    ),
-    Padding(
-    padding: const EdgeInsets.only(left: 230, top: 35),
-    child: Container(
-    width: 60,
-    height: 50,
-    decoration: BoxDecoration(
-    borderRadius: BorderRadius.all(Radius.circular(30)),
-    color: Colors.white),
-    child: FlatButton(
-    onPressed: null,
-    child: Icon(
-    Icons.search,
-    color: Color(0xff453097),
-    ))),
-    ),
-    ],
-    ),
- * */
-
-
-// OldCode
-/*
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'AddCenter.dart';
-import 'home_page.dart';
-import 'logIn.dart';
-
-// زر البحث
-/**   Stack(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 20.0, top: 35),
-                child: Container(
-                  // margin: EdgeInsets.symmetric(vertical: 10),
-                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                  // width: size.width * 0.8,
-                  //  height: 50,
-                  width: 250,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(55.0)),
-                    color: Color(0xffffffff).withAlpha(50),
-                  ),
-                  child: TextField(
-                    cursorColor: Color(0xffffffff),
-                    decoration: InputDecoration(
-                      //  icon: Icon(Icons.search, color: Color(0xff6CECB3)),
-                      hintText: 'بحث',
-                      hintStyle: TextStyle(
-                        color: Colors.white,
-                        // fontWeight: FontWeight.bold,
-                      ),
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 230, top: 35),
-                child: Container(
-                    width: 60,
-                    height: 50,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
-                        color: Colors.white),
-                    child: FlatButton(
-                        onPressed: null,
-                        child: Icon(
-                          Icons.search,
-                          color: Color(0xff453097),
-                        ))),
-              ),
-            ],
-          ),
-* */
-
-class centerCards extends StatelessWidget {
-  @override
-  List<StaggeredTile> _cardTile = const <StaggeredTile>[
-    const StaggeredTile.count(5, 2.5),
-    StaggeredTile.count(2, 4),
-    StaggeredTile.count(2, 3),
-    StaggeredTile.count(2, 3),
-    StaggeredTile.count(2, 3),
-    StaggeredTile.count(2, 2),
-    StaggeredTile.count(2, 3),
-  ];
-
-//List of Cards with color and icon
-
-  List<Widget> _listTile = const <Widget>[
-    const _BackGroundTile(
-        gridImage: 'assets/Image/center1.jpg',
-        text: 'مركز                                           الفرقان'),
-    const _BackGroundTile(
-        gridImage: 'assets/Image/center2.jpg',
-        text: 'مركز  بستان  القصر'),
-    const _BackGroundTile(
-        gridImage: 'assets/Image/center3.jpg', text: 'مركز           المرديان'),
-    const _BackGroundTile(
-        gridImage: 'assets/Image/center4.jpg',
-        text: 'مركز                    حلب الجديدة'),
-    const _BackGroundTile(
-        gridImage: 'assets/Image/center5.jpg', text: 'مركز الشهباء'),
-    const _BackGroundTile(
-        gridImage: 'assets/Image/center6.jpg', text: 'مركز الشعار'),
-  ];
-
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          Stack(
-            children: <Widget>[
-              Container(
-                height: 110,
-                decoration: BoxDecoration(
-                  color: Color(0xff453097),
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(70),
-                      bottomRight: Radius.circular(70)),
-                ),
-              ),
-              Positioned(
-                top: 40.0,
-                left: 0.0,
-                right: 0.0,
-                child: Container(
-                  height: 50,
-                  padding: EdgeInsets.symmetric(horizontal: 40.0),
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: Colors.white),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            textAlign: TextAlign.right,
-                            decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Color(0xff453097),
-                                  ),
-                                  borderRadius: BorderRadius.circular(50)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Color(0xff453097)),
-                                  borderRadius: BorderRadius.circular(50)),
-                              prefixIcon:
-                                  Icon(Icons.search, color: Color(0xff453097)),
-                              hintText: "بحث ",
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-          Container(
-              height: MediaQuery.of(context).size.height - 175,
-              decoration: BoxDecoration(
-                color: Colors.white,
-              ),
-              child: Stack(
-                children: <Widget>[
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left:20.0,right: 20.0),
-                        child: Container(
-                          color: Colors.white,
-                          height: MediaQuery.of(context).size.height -175,
-                          child: StaggeredGridView.count(
-                              primary: false,
-                              crossAxisCount: 4,
-                              staggeredTiles: _cardTile,
-                              children: _listTile,
-                              mainAxisSpacing: 4.0,
-                              crossAxisSpacing: 4.0
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              )
-          )
-        ],
-      ),
-    /*  floatingActionButton: FloatingActionButton(
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
-        onPressed: (){
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => AddCenters()));
-        },
-        backgroundColor: Color(0xff453097),
-      ),*/
-      bottomNavigationBar: CurvedNavigationBar(
-        //  key: _bottomNavigationKey,
-        // index: 1,
-        height: 55.0,
-        items: <Widget>[
-          GestureDetector(
-            child: Icon(Icons.stay_current_portrait, color: Colors.white, size: 30),
-            // onTap: ,
-          ),
-          GestureDetector(
-            child: Icon(Icons.location_pin, color: Colors.white, size: 30),
-            // onTap: ,
-          ),
-          GestureDetector(
-            child: Icon(Icons.home_outlined, color: Colors.white, size: 30),
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Home()));
-            },
-          ),
-          GestureDetector(
-            child: Icon(Icons.login_outlined, color: Colors.white, size: 30),
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => LoginScreen()));
-            },
-          ),
-        ],
-        color: Color(0xff453097),
-        // buttonBackgroundColor: Color(0xff453097),
-        backgroundColor: Colors.white,
-        //  animationCurve: Curves.easeInOut,
-        //  animationDuration: Duration(milliseconds: 600),
-      /*  onTap: (index) {
-          setState(() {
-            _page = index;
-          });
-        },*/
-        letIndexChange: (index) => true,
-      ),
-    );
-  }
-}
-
-class _BackGroundTile extends StatelessWidget {
-  const _BackGroundTile({this.backgroundColor, this.gridImage, this.text});
-
-  final Color backgroundColor;
-  final gridImage;
-  final text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0),
-      ),
-      semanticContainer: true,
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      child: Stack(fit: StackFit.expand, children: <Widget>[
-        Image.asset(
-          gridImage,
-          fit: BoxFit.cover,
-        ),
-        Container(
-          padding: EdgeInsets.only(right: 10, top: 10),
-          child: Text(
-            text,
-            textAlign: TextAlign.end,
-            style: TextStyle(
-              fontSize: 20,
-            ),
-          ),
-        )
-      ]),
-    );
-  }
-}
-* */
+import 'package:google_fonts/google_fonts.dart';
 
 
 class centerCards extends StatefulWidget {
@@ -348,138 +29,188 @@ class centerCards_state extends State<centerCards> {
       });
     });
   }
-
-  List<StaggeredTile> _cardTile = const <StaggeredTile>[
-    const StaggeredTile.count(5, 2.5),
-    StaggeredTile.count(2, 4),
-    StaggeredTile.count(2, 3),
-    StaggeredTile.count(2, 3),
-    StaggeredTile.count(2, 3),
-    StaggeredTile.count(2, 2),
-    StaggeredTile.count(2, 3),
-  ];
-
-//List of Cards with color and icon
-
-  List<Widget> _listTile = const <Widget>[
-    const _BackGroundTile(
-        gridImage: 'assets/Image/center1.jpg',
-        text: 'مركز                                           الفرقان'),
-    const _BackGroundTile(
-        gridImage: 'assets/Image/center2.jpg', text: 'مركز  بستان  القصر'),
-    const _BackGroundTile(
-        gridImage: 'assets/Image/center3.jpg', text: 'مركز           المرديان'),
-    const _BackGroundTile(
-        gridImage: 'assets/Image/center4.jpg',
-        text: 'مركز                    حلب الجديدة'),
-    const _BackGroundTile(
-        gridImage: 'assets/Image/center5.jpg', text: 'مركز الشهباء'),
-    const _BackGroundTile(
-        gridImage: 'assets/Image/center6.jpg', text: 'مركز الشعار'),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        actions: <Widget>[Container()],
+        backgroundColor: Colors.white,
+        elevation: 0,
+        title: Container(
+          padding: EdgeInsets.only(top: 5),
+          child:
+         Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: EdgeInsets.fromLTRB(10, 20, 10, 25),
+                child: TextFormField(
+                  cursorColor: Color(0xff4d36ad),
+                  textInputAction: TextInputAction.search,
+                  // controller: _doctorName,
+                  decoration: InputDecoration(
+                    contentPadding:
+                    EdgeInsets.only(left: 20, top: 10, bottom: 10),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      borderSide: BorderSide.none,
+                    ),
+                    filled: true,
+                    fillColor: Color(0xffd7d6e6),
+                    hintText: 'بحث',
+                    hintStyle: GoogleFonts.lato(
+                      color: Color(0xff453097).withAlpha(50),
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800,
+                    ),
+                    suffixIcon: Container(
+                      decoration: BoxDecoration(
+                        color: //Colors.blue[900].withOpacity(0.9),
+                        Color(0xff6D6298),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: IconButton(
+                        iconSize: 20,
+                        splashRadius: 20,
+                        color: Colors.white,
+                        icon: Icon(Icons.search),
+                        onPressed: () {},
+                      ),
+                    ),
+                  ),
+                  style: GoogleFonts.lato(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
+                  ),
+                  /* onFieldSubmitted: (String value) {
+                setState(
+                      () {
+                    value.length == 0
+                        ? Container()
+                        : Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SearchList(
+                          searchKey: value,
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },*/
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          Stack(
-            children: <Widget>[
-              Container(
-                height: 110,
-                decoration: BoxDecoration(
-                  color: Color(0xff453097),
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(70),
-                      bottomRight: Radius.circular(70)),
-                ),
-              ),
-              Positioned(
-                top: 40.0,
-                left: 0.0,
-                right: 0.0,
-                child: Container(
-                  height: 50,
-                  padding: EdgeInsets.symmetric(horizontal: 40.0),
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: Colors.white),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            textAlign: TextAlign.right,
-                            decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Color(0xff453097),
-                                  ),
-                                  borderRadius: BorderRadius.circular(50)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Color(0xff453097)),
-                                  borderRadius: BorderRadius.circular(50)),
-                              prefixIcon:
-                                  Icon(Icons.search, color: Color(0xff453097)),
-                              hintText: "بحث ",
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-          Container(
-              height: MediaQuery.of(context).size.height - 175,
-              decoration: BoxDecoration(
-                color: Colors.white,
-              ),
-              child: Stack(
-                children: <Widget>[
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                        child: Container(
-                          color: Colors.white,
-                          height: MediaQuery.of(context).size.height - 175,
-                          child:StaggeredGridView.countBuilder(
-                            crossAxisCount: 4,
-                              itemCount: 10,
-                              itemBuilder: (BuildContext context , int index) =>
-                                  Container(
-                                    width: 100,
-                                    height: 100,
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: NetworkImage('https://picsum.photos/500/500?random=$index'),
-                                        fit: BoxFit.fill,
-                                      ),
-                                      shape: BoxShape.rectangle,
+          Expanded(
+              child: ListView.builder(
+                  itemCount: items.length,
+                  physics: ClampingScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, position) {
+                    return Stack(
+                      children: <Widget>[
+                        Container(
+                          height: 80,
+                          width: 400,
+                          child: Row(
+                            children: <Widget>[
+                              Column(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Text('${items[position].from}',),
+                                        Text(' :البدء',
+                                            //  textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold
+                                            )),
+                                      ],
                                     ),
-                                    child: Text('${items[index].name}')
                                   ),
-                              staggeredTileBuilder: (int index)=>
-                                  StaggeredTile.count(2, index.isEven ? 3:2),
-                              mainAxisSpacing: 4.0,
-                              crossAxisSpacing: 4.0
-                            /* primary: false,
-                              crossAxisCount: 4,
-                              staggeredTiles: _cardTile,
-                              children: _listTile,
-                              */
+                                  Row(
+                                    children: <Widget>[
+                                      Text('${items[position].to}'),
+                                      Text(' :الانتهاء',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold)),
+
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left:8.0,right: 8,bottom:8,top:8),
+                                  child: ListTile(
+                                      title: Text(
+                                        '${items[position].name}',
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      subtitle: Column(
+                                        children: [
+                                          Text(
+                                            ' رقم الهاتف: ${items[position].phone}',
+                                            textAlign: TextAlign.right,
+                                          ),
+                                          Text(
+                                            ' العنوان: ${items[position].address}',
+                                            textAlign: TextAlign.right,
+                                          ),
+                                        ],
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                      )),
+                                ),
+                              ),
+                            ],
+                          ),
+                          margin:
+                          EdgeInsets.only(top: 20, right: 30, left: 30),
+                          padding: EdgeInsets.all(1),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Color(0xffd7d6e6)
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
-              ))
+                        Padding(
+                          padding: const EdgeInsets.only(right:285,top:3),
+                          child: Column(
+                            children: [
+                              IconButton(
+                                icon: Icon(
+                                    Icons.edit,
+                                    color: Color(0xff6D6298)
+                                ),
+                                onPressed: () => _navigateToCenter(
+                                    context, items[position]),
+                              ),
+                              IconButton(
+                                  icon: Icon(
+                                    Icons.delete,
+                                    color: Color(0xff6D6298),
+                                  ),
+                                  onPressed: () => _deleteCenter(
+                                      context,
+                                      items[position],
+                                      position))
+                            ],
+                          ),
+                        )
+                      ],
+                    );
+                  })
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -490,21 +221,17 @@ class centerCards_state extends State<centerCards> {
         onPressed: () {
           _createNewLabortoryCenter(context);
         },
-        backgroundColor: Color(0xff453097),
+        backgroundColor: Color(0xff6D6298),
       ),
       bottomNavigationBar: CurvedNavigationBar(
-//  key: _bottomNavigationKey,
-// index: 1,
         height: 55.0,
         items: <Widget>[
           GestureDetector(
             child: Icon(Icons.stay_current_portrait,
                 color: Colors.white, size: 30),
-// onTap: ,
           ),
           GestureDetector(
             child: Icon(Icons.location_pin, color: Colors.white, size: 30),
-// onTap: ,
           ),
           GestureDetector(
             child: Icon(Icons.home_outlined, color: Colors.white, size: 30),
@@ -521,17 +248,8 @@ class centerCards_state extends State<centerCards> {
             },
           ),
         ],
-        color: Color(0xff453097),
-// buttonBackgroundColor: Color(0xff453097),
+        color: Color(0xff6D6298),
         backgroundColor: Colors.white,
-//  animationCurve: Curves.easeInOut,
-//  animationDuration: Duration(milliseconds: 600),
-/*  onTap: (index) {
-          setState(() {
-            _page = index;
-          });
-        },*/
-        letIndexChange: (index) => true,
       ),
     );
   }
@@ -579,41 +297,5 @@ class centerCards_state extends State<centerCards> {
         });
       });
     }
-  }
-}
-
-
-class _BackGroundTile extends StatelessWidget {
-  const _BackGroundTile({this.backgroundColor, this.gridImage, this.text});
-
-  final Color backgroundColor;
-  final gridImage;
-  final text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0),
-      ),
-      semanticContainer: true,
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      child: Stack(fit: StackFit.expand, children: <Widget>[
-        Image.asset(
-          gridImage,
-          fit: BoxFit.cover,
-        ),
-        Container(
-          padding: EdgeInsets.only(right: 10, top: 10),
-          child: Text(
-            text,
-            textAlign: TextAlign.end,
-            style: TextStyle(
-              fontSize: 20,
-            ),
-          ),
-        )
-      ]),
-    );
   }
 }

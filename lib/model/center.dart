@@ -61,7 +61,7 @@ class Centerr{
     map['phone'] = _phone;
     //map['lat'] = _lat;
     // map['lng'] = _lng;
-    // map['img'] = _img;
+     //map['img'] = _img;
 
     return map;
   }
