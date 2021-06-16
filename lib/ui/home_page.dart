@@ -8,11 +8,12 @@ import 'package:flutter_app_mab/ui/center.dart';
 import 'package:flutter_app_mab/ui/doctor.dart';
 import 'logIn.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 // Main Code
 /*class Home extends StatefulWidget {
   @override
   Home_HomeState createState() => Home_HomeState();
-}
+}*/
 
 var cardAspectRatio = 12.0 / 16.0;
 var widgetAspectRatio = cardAspectRatio * 1.2;
@@ -29,13 +30,13 @@ List<String> title = [
   "الأطباء",
   "المراكز",
 ];
-class Home_HomeState extends State<Home> {
+List<dynamic> Loc = [centerCards(), D_details(), laboratory(), pharmacy()];
 
+/*class Home_HomeState extends State<Home> {
   var currentPage = images.length - 1.0;
 
   @override
   Widget build(BuildContext context) {
-
     PageController controller = PageController(initialPage: images.length - 1);
     controller.addListener(() {
       setState(() {
@@ -44,42 +45,50 @@ class Home_HomeState extends State<Home> {
     });
 
     return Scaffold(
-         resizeToAvoidBottomInset: false,
-         backgroundColor: Color(0xff4d36ad),
-        body: Column(
-          children: <Widget>[
-            Stack(
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Container(
-                       color: Colors.white,
-                      child: Container(
-                        height: 100,
-                        decoration: BoxDecoration(
-                          color: Color(0xff453097),
-                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(60),bottomRight: Radius.circular(60) ),
-                        ) ,
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Color(0xff4d36ad),
+      body: Column(
+        children: <Widget>[
+          Stack(
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  Container(
+                    color: Colors.white,
+                    child: Container(
+                      height: 100,
+                      decoration: BoxDecoration(
+                        color: Color(0xff453097),
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(60),
+                            bottomRight: Radius.circular(60)),
                       ),
                     ),
-
-                    Container(
-                      height: MediaQuery.of(context).size.height-100-63,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                      ) ,
-                      child: ListView(
-                        primary: false,
-                        children: <Widget>[
-
-                          SingleChildScrollView(
-                            child: GestureDetector(
-                              child: Column(
-                                children: <Widget>[
-                                  Stack(
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height - 100 - 63,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                    ),
+                    child: ListView(
+                      primary: false,
+                      children: <Widget>[
+                        SingleChildScrollView(
+                          child: GestureDetector(
+                            child: Column(
+                              children: <Widget>[
+                                GestureDetector(
+                                  onTap: () {
+                                    for (int i = 0; i < Loc.length; i++)
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => Loc[i]));
+                                  },
+                                  child: Stack(
                                     children: <Widget>[
                                       Padding(
-                                        padding: const EdgeInsets.only(top:40),
+                                        padding: const EdgeInsets.only(top: 40),
                                         child: CardScrollWidget(currentPage),
                                       ),
                                       Positioned.fill(
@@ -94,93 +103,108 @@ class Home_HomeState extends State<Home> {
                                       )
                                     ],
                                   ),
-                                  //child: Image.asset("assets/image_02.jpg",
-                                ],
-                              ),
-                              onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => D_details()));
-                              },
+                                ),
+                                //child: Image.asset("assets/image_02.jpg",
+                              ],
                             ),
                           ),
-                        ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0, top: 35),
+                    child: Container(
+                      // margin: EdgeInsets.symmetric(vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                      // width: size.width * 0.8,
+                      //  height: 50,
+                      width: 250,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(55.0)),
+                        color: Color(0xffffffff).withAlpha(50),
+                      ),
+                      child: TextField(
+                        cursorColor: Color(0xffffffff),
+                        decoration: InputDecoration(
+                          //  icon: Icon(Icons.search, color: Color(0xff6CECB3)),
+                          hintText: 'بحث',
+                          hintStyle: TextStyle(
+                            color: Colors.white,
+                            // fontWeight: FontWeight.bold,
+                          ),
+                          border: InputBorder.none,
+                        ),
                       ),
                     ),
-                  ],
-                ),
-                Stack(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0, top: 35),
-                      child: Container(
-                        // margin: EdgeInsets.symmetric(vertical: 10),
-                        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                        // width: size.width * 0.8,
-                        //  height: 50,
-                        width: 250,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 230, top: 35),
+                    child: Container(
+                        width: 60,
                         height: 50,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(55.0)),
-                          color: Color(0xffffffff).withAlpha(50),
-                        ),
-                        child: TextField(
-                          cursorColor: Color(0xffffffff),
-                          decoration: InputDecoration(
-                            //  icon: Icon(Icons.search, color: Color(0xff6CECB3)),
-                            hintText: 'بحث',
-                            hintStyle: TextStyle(
-                              color: Colors.white,
-                              // fontWeight: FontWeight.bold,
-                            ),
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 230, top: 35),
-                      child: Container(
-                          width: 60,
-                          height: 50,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(30)),
-                              color: Colors.white),
-                          child: FlatButton(
-                              onPressed: null,
-                              child: Icon(
-                                Icons.search,
-                                color: Color(0xff453097),
-                              ))),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                            color: Colors.white),
+                        child: FlatButton(
+                            onPressed: null,
+                            child: Icon(
+                              Icons.search,
+                              color: Color(0xff453097),
+                            ))),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
-       backgroundColor: Color(0xff453097),
+        backgroundColor: Color(0xff453097),
         iconSize: 30,
         items: <BottomNavigationBarItem>[
           new BottomNavigationBarItem(
-              icon: const Icon(Icons.location_pin,color: Colors.white,),
-              title: new Text("خريطة",style: TextStyle(color: Colors.white,),)
-          ),
+              icon: const Icon(
+                Icons.location_pin,
+                color: Colors.white,
+              ),
+              title: new Text(
+                "خريطة",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              )),
           new BottomNavigationBarItem(
-              icon: const Icon(Icons.home_outlined,color: Colors.white,),
-              title: new Text("الصفحة الرئيسية",style: TextStyle(color: Colors.white,))
-          ),
+              icon: const Icon(
+                Icons.home_outlined,
+                color: Colors.white,
+              ),
+              title: new Text("الصفحة الرئيسية",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ))),
           new BottomNavigationBarItem(
-              icon: const Icon(Icons.login_outlined,color: Colors.white,),
-              title: new Text("تسجيل الخروج",style: TextStyle(color: Colors.white,))
-          )
+              icon: const Icon(
+                Icons.login_outlined,
+                color: Colors.white,
+              ),
+              title: new Text("تسجيل الخروج",
+                  style: TextStyle(
+                    color: Colors.white,
+                  )))
         ],
       ),
-        );
+    );
   }
-}
+}*/
 
-
-class CardScrollWidget extends StatelessWidget {
+/*class CardScrollWidget extends StatelessWidget {
   var currentPage;
   var padding = 15.0;
   var verticalInset = 20.0;
@@ -189,7 +213,7 @@ class CardScrollWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new AspectRatio(
+    return  AspectRatio(
       aspectRatio: widgetAspectRatio,
       child: LayoutBuilder(builder: (context, contraints) {
         var width = contraints.maxWidth;
@@ -211,7 +235,10 @@ class CardScrollWidget extends StatelessWidget {
           bool isOnRight = delta > 0;
 
           var start = padding +
-              max(primaryCardLeft - horizontalInset * -delta * (isOnRight ? 15 : 1), 0.0);
+              max(
+                  primaryCardLeft -
+                      horizontalInset * -delta * (isOnRight ? 15 : 1),
+                  0.0);
 
           var cardItem = Positioned.directional(
             top: padding + verticalInset * max(-delta, 0.0),
@@ -271,9 +298,6 @@ class Home extends StatefulWidget {
 }
 
 class Home_HomeState extends State<Home> {
-  int _page = 0;
-  GlobalKey _bottomNavigationKey = GlobalKey();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -356,7 +380,7 @@ class Home_HomeState extends State<Home> {
         children: <Widget>[
           GestureDetector(
             child: Container(
-              margin: EdgeInsets.only(top: 5, right: 50),
+              margin: EdgeInsets.only(top: 15, right: 50),
               padding: EdgeInsets.all(15),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
@@ -383,12 +407,12 @@ class Home_HomeState extends State<Home> {
           ),
           GestureDetector(
             child: Container(
-              margin: EdgeInsets.only(top: 30, right: 50),
+              margin: EdgeInsets.only(top: 30, left: 50),
               padding: EdgeInsets.all(15),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(70),
-                    topRight: Radius.circular(70)),
+                    bottomLeft: Radius.circular(70),
+                    topLeft: Radius.circular(70)),
                 gradient: LinearGradient(colors: [
                   Color(0xff4d36ad),
                   Color(0xff6D6298),
@@ -440,12 +464,12 @@ class Home_HomeState extends State<Home> {
           ),
           GestureDetector(
             child: Container(
-              margin: EdgeInsets.only(top: 30, right: 50),
+              margin: EdgeInsets.only(top: 30, left: 50),
               padding: EdgeInsets.all(15),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(70),
-                    topRight: Radius.circular(70)),
+                    bottomLeft: Radius.circular(70),
+                    topLeft: Radius.circular(70)),
                 gradient: LinearGradient(colors: [
                   Color(0xff4d36ad),
                   Color(0xff6D6298),
@@ -516,3 +540,4 @@ class Home_HomeState extends State<Home> {
     );
   }
 }
+

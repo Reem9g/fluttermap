@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mab/utils/databasee_helper_center.dart';
 import 'package:flutter_app_mab/model/center.dart';
+import 'doctor.dart';
 import 'home_page.dart';
 import 'logIn.dart';
 import 'package:flutter_app_mab/ui/AddCenter.dart';
@@ -116,72 +117,81 @@ class centerCards_state extends State<centerCards> {
                   itemBuilder: (context, position) {
                     return Stack(
                       children: <Widget>[
-                        Container(
-                          height: 80,
-                          width: 400,
-                          child: Row(
-                            children: <Widget>[
-                              Column(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Row(
+                        GestureDetector(
+                          child: Container(
+                            height: 80,
+                            width: 400,
+                            child: Row(
+                              children: <Widget>[
+                                Column(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Row(
+                                        children: <Widget>[
+                                          Text('${items[position].from}',),
+                                          Text(' :البدء',
+                                              //  textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                    Row(
                                       children: <Widget>[
-                                        Text('${items[position].from}',),
-                                        Text(' :البدء',
-                                            //  textAlign: TextAlign.left,
+                                        Text('${items[position].to}'),
+                                        Text(' :الانتهاء',
                                             style: TextStyle(
-                                                fontWeight: FontWeight.bold
-                                            )),
+                                                fontWeight: FontWeight.bold)),
+
                                       ],
                                     ),
-                                  ),
-                                  Row(
-                                    children: <Widget>[
-                                      Text('${items[position].to}'),
-                                      Text(' :الانتهاء',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold)),
-
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left:8.0,right: 8,bottom:8,top:8),
-                                  child: ListTile(
-                                      title: Text(
-                                        '${items[position].name}',
-                                        textAlign: TextAlign.right,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      subtitle: Column(
-                                        children: [
-                                          Text(
-                                            ' رقم الهاتف: ${items[position].phone}',
-                                            textAlign: TextAlign.right,
-                                          ),
-                                          Text(
-                                            ' العنوان: ${items[position].address}',
-                                            textAlign: TextAlign.right,
-                                          ),
-                                        ],
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.end,
-                                      )),
+                                  ],
                                 ),
-                              ),
-                            ],
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left:8.0,right: 8,bottom:8,top:8),
+                                    child: ListTile(
+                                        title: Text(
+                                          '${items[position].name}',
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        subtitle: Column(
+                                          children: [
+                                            Text(
+                                              ' رقم الهاتف: ${items[position].phone}',
+                                              textAlign: TextAlign.right,
+                                            ),
+                                            Text(
+                                              ' العنوان: ${items[position].address}',
+                                              textAlign: TextAlign.right,
+                                            ),
+                                          ],
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.end,
+                                        )),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            margin:
+                            EdgeInsets.only(top: 20, right: 30, left: 30),
+                            padding: EdgeInsets.all(1),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Color(0xffd7d6e6)
+                            ),
                           ),
-                          margin:
-                          EdgeInsets.only(top: 20, right: 30, left: 30),
-                          padding: EdgeInsets.all(1),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Color(0xffd7d6e6)
-                          ),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        D_details()));
+                          },
                         ),
                         Padding(
                           padding: const EdgeInsets.only(right:285,top:3),

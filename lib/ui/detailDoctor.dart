@@ -1,24 +1,42 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'home_page.dart';
 import 'logIn.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+
 class TaskScreen extends StatefulWidget {
-  String Name, Spec;
-  TaskScreen(this.Name, this.Spec);
+  String Name, Spec, About, From, To, Phone;
+  TaskScreen(this.Name, this.Spec, this.About, this.From, this.To, this.Phone);
   @override
   State<StatefulWidget> createState() {
-    return StateTaskScreen(this.Name, this.Spec);
+    return StateTaskScreen(
+        this.Name, this.Spec, this.About, this.From, this.To, this.Phone);
   }
 }
+
 class StateTaskScreen extends State<TaskScreen> {
-  String Name, Spec;
-  StateTaskScreen(this.Name, this.Spec);
+  _launchCaller(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  String Name, Spec, About, From, To, Phone;
+  StateTaskScreen(
+      this.Name, this.Spec, this.About, this.From, this.To, this.Phone);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffffffff),
       body: Column(
         children: [
           Container(
+            height: 200,
             decoration: BoxDecoration(
                 image: DecorationImage(
               image: AssetImage('assets/Image/ddoctor.jpg'),
@@ -29,193 +47,145 @@ class StateTaskScreen extends State<TaskScreen> {
           ),
           Expanded(
               child: Container(
-            color: Colors.white,
-            child: ListView(
-              children: [
-                ListTile(
-                    leading: CircleAvatar(
-                      backgroundImage:
-                          ExactAssetImage('assets/Image/fdoctor.jpg'),
-                      radius: 50,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(50),
+                  topRight: Radius.circular(50)
                     ),
-                    title: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        ListTile(
-                          title: Text(
-                            '$Name',
-                            style: TextStyle(
-                              fontSize: 22,
-                            ),
-                            textAlign: TextAlign.left,
+                color: Color(0xff4d36ad).withAlpha(75),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(top:20.0),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                //  mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  ListTile(
+                      title: Column(
+                    //  crossAxisAlignment: CrossAxisAlignment.end,
+                    //  mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      ListTile(
+                        title: Text(
+                          '$Name',
+                          style: TextStyle(
+                            fontSize: 22,
                           ),
-                          subtitle: Text(
-                            '$Spec ',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 20),
-                          ),
+                          textAlign: TextAlign.right,
                         ),
-                        Row(
+                        subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 14.0, right: 14.0),
-                              child: Icon(
-                                Icons.phone,
-                                color: Color(0xff453097),
-                              ),
+                            Text(
+                              '$Spec ',
+                              textAlign: TextAlign.right,
+                              style: TextStyle(fontSize: 20),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 14.0, right: 14.0),
-                              child: Icon(
-                                Icons.message,
-                                color: Color(0xff453097),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                TextButton(
+                                  onPressed: () =>
+                                      _launchCaller("tel:" + Phone),
+                                  child: Text(
+                                    '$Phone ',
+                                    textAlign: TextAlign.right,
+                                    style: GoogleFonts.lato(
+                                        fontSize: 20,
+                                        color: Colors.blue),
+                                  ),
+                                ),
+                              Padding(
+                                padding: const EdgeInsets.only(top:11.0),
+                                child: Icon(FlutterIcons.phone_in_talk_mco),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 14.0, right: 14.0),
-                              child: Icon(
-                                Icons.phone_iphone,
-                                color: Color(0xff453097),
-                              ),
+
+                              ],
                             ),
                           ],
-                        )
-                      ],
-                    )
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(
-                    'حول الطبيب',
-                    textAlign: TextAlign.right,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                  child: Text(
-                    'هنا شرح مبسط عن الطبيب أين درس و موقعه ..الخ',
-                    textAlign: TextAlign.right,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(
-                    'مواعيد الدوام الحالية',
-                    textAlign: TextAlign.right,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                ),
-
-                Container(
-                  margin: EdgeInsets.only(top: 5, right: 10,left: 10),
-                 // padding: EdgeInsets.all(30),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(30)),
-                    color: Color(0xff4d36ad).withAlpha(75),
-
-                  ),
-                  child: ListTile(
-                    title: Text('موعد المعاينة',
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.white)),
-                    subtitle: Text(
-                      '  الأحد 9ص - 3م ',
+                        ),
+                      ),
+                    ],
+                  )),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(
+                      'حول الطبيب',
                       textAlign: TextAlign.right,
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                    //  leading: ,
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 5, right: 10,left: 10),
-                  // padding: EdgeInsets.all(30),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(30)),
-                    color:Color(0xff6F649D),
-                  ),
-                  child: ListTile(
-                    title: Text('موعد المعاينة',
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.white)),
-                    subtitle: Text(
-                      '  الاثنين 9ص - 3م ',
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                    child: Text(
+                      '$About',
                       textAlign: TextAlign.right,
-                      style: TextStyle(color: Colors.white),
                     ),
-                    //  leading: ,
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 5, right: 10,left: 10),
-                  // padding: EdgeInsets.all(30),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(30)),
-                    color:Color(0xff4d36ad).withAlpha(75),
-                  ),
-                  child: ListTile(
-                    title: Text('موعد المعاينة',
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.white)),
-                    subtitle: Text(
-                      '  الثلاثاء 9ص - 3م ',
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(
+                      'دوام اليوم',
                       textAlign: TextAlign.right,
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                    //  leading: ,
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 5, right: 10,left: 10),
-                  // padding: EdgeInsets.all(30),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(30)),
-                    color: Color(0xff6F649D),
-
-                  ),
-                  child: ListTile(
-                    title: Text('موعد المعاينة',
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.white)),
-                    subtitle: Text(
-                      '  الاربعاء 9ص - 3م ',
-                      textAlign: TextAlign.right,
-                      style: TextStyle(color: Colors.white),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      height: 50,
+                      // width: ,
+                      // margin: EdgeInsets.only( right: 10, left: 10),
+                      padding: EdgeInsets.only(bottom: 15),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                        color: Color(0xff4d36ad).withAlpha(75),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Icon(Icons.access_time_rounded),
+                          Text('$To',
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white)),
+                          Text(
+                            ':الانتهاء ',
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              //  color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 75,
+                          ),
+                          Icon(Icons.access_time_rounded),
+                          Text('$From',
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white)),
+                          Text(
+                            ':البدء ',
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              //  color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 25,
+                          ),
+                        ],
+                      ),
                     ),
-                    //  leading: ,
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 5, right: 10,left: 10),
-                  // padding: EdgeInsets.all(30),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(30)),
-                    color:Color(0xff4d36ad).withAlpha(75),
-                  ),
-                  child: ListTile(
-                    title: Text('موعد المعاينة',
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.white)),
-                    subtitle: Text(
-                      '  الخميس 9ص - 3م ',
-                      textAlign: TextAlign.right,
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    //  leading: ,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ))
         ],
@@ -235,15 +205,19 @@ class StateTaskScreen extends State<TaskScreen> {
           GestureDetector(
             child: Icon(Icons.home_outlined, color: Colors.white, size: 30),
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Home()));
             },
           ),
           GestureDetector(
             child: Icon(Icons.login_outlined, color: Colors.white, size: 30),
-            onTap: () { Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));},
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => LoginScreen()));
+            },
           ),
         ],
-        color: Color(0xff453097),
+        color: Color(0xff6D6298),
         backgroundColor: Colors.white,
       ),
     );
