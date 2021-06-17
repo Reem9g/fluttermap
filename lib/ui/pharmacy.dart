@@ -289,15 +289,18 @@ class pharmacy_pharmacyState extends State<pharmacy> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
+      floatingActionButton: Visibility(
+        visible : UserName == 'admin' ? !_isvisible: _isvisible,
+        child: FloatingActionButton(
+          child: Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            _createNewPharmacy(context);
+          },
+          backgroundColor: Color(0xff6D6298),
         ),
-        onPressed: () {
-          _createNewPharmacy(context);
-        },
-        backgroundColor: Color(0xff6D6298),
       ),
       bottomNavigationBar: CurvedNavigationBar(
         //  key: _bottomNavigationKey,
