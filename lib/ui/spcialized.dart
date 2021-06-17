@@ -236,7 +236,7 @@ class stateSpc_Doctors extends State<Spc_Doctors> {
             child: Icon(Icons.home_outlined, color: Colors.white, size: 30),
             onTap: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Home('')));
+                  context, MaterialPageRoute(builder: (context) => Home(UserName)));
             },
           ),
           GestureDetector(
