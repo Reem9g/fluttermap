@@ -1,20 +1,26 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mab/model/pharmacy.dart';
+import 'package:flutter_app_mab/model/user.dart';
 import 'package:flutter_app_mab/utils/database_helper_phar.dart';
 import 'AddPharmacy.dart';
 import 'home_page.dart';
 import 'logIn.dart';
 import 'package:google_fonts/google_fonts.dart';
 class pharmacy extends StatefulWidget {
+  String UserName;
+  pharmacy(this.UserName);
   @override
-  pharmacy_pharmacyState createState() => pharmacy_pharmacyState();
+  pharmacy_pharmacyState createState() => pharmacy_pharmacyState(this.UserName);
 }
 
 class pharmacy_pharmacyState extends State<pharmacy> {
+  String UserName;
+  pharmacy_pharmacyState(this.UserName);
   List<Pharmacy> items = List();
   DatabaseHelperPhar db = new DatabaseHelperPhar();
-
+  User user;
+  bool _isvisible = false;
   @override
   void initState() {
     super.initState();
@@ -250,28 +256,31 @@ class pharmacy_pharmacyState extends State<pharmacy> {
                             color: Color(0xffd7d6e6)
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(right:285),
-                        child: Column(
-                          children: [
-                            IconButton(
-                              icon: Icon(
-                                  Icons.edit,
-                                  color: Color(0xff6D6298)
-                              ),
-                              onPressed: () => _navigateToPharmacy(
-                                  context, items[position]),
-                            ),
-                            IconButton(
+                      Visibility(
+                        visible : UserName == 'admin' ? !_isvisible: _isvisible,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right:285),
+                          child: Column(
+                            children: [
+                              IconButton(
                                 icon: Icon(
-                                  Icons.delete,
-                                  color: Color(0xff6D6298),
+                                    Icons.edit,
+                                    color: Color(0xff6D6298)
                                 ),
-                                onPressed: () => _deletePharmacy(
-                                    context,
-                                    items[position],
-                                    position))
-                          ],
+                                onPressed: () => _navigateToPharmacy(
+                                    context, items[position]),
+                              ),
+                              IconButton(
+                                  icon: Icon(
+                                    Icons.delete,
+                                    color: Color(0xff6D6298),
+                                  ),
+                                  onPressed: () => _deletePharmacy(
+                                      context,
+                                      items[position],
+                                      position))
+                            ],
+                          ),
                         ),
                       )
                     ],
@@ -308,7 +317,7 @@ class pharmacy_pharmacyState extends State<pharmacy> {
             child: Icon(Icons.home_outlined, color: Colors.white, size: 30),
             onTap: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Home()));
+                  context, MaterialPageRoute(builder: (context) => Home('')));
             },
           ),
           GestureDetector(

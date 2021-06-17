@@ -3,6 +3,8 @@ import 'package:flutter_app_mab/model/user.dart';
 import 'package:flutter_app_mab/ui/login_presenter.dart';
 import 'package:flutter_app_mab/utils/database_helperUser.dart';
 
+import 'home_page.dart';
+
 class LoginScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -270,12 +272,13 @@ implements LoginPageContract{
                             color: Color(0xff4d36ad).withAlpha(50),
                           ),
                           child: TextFormField(
+                            controller: nameController,
                             onSaved: (val) => _Number = val,
                             cursorColor: Color(0xff4d36ad),
                             decoration: InputDecoration(
                               icon: Icon(Icons.assignment_turned_in_sharp,
                                   color: Color(0xff4d36ad)),
-                              hintText: 'رقم النقابي',
+                              hintText: 'اسم المستخدم',
                               hintStyle: TextStyle(
                                 color: Color(0xff4d36ad),
                                 // fontWeight: FontWeight.bold,
@@ -299,6 +302,7 @@ implements LoginPageContract{
                             color: Color(0xff4d36ad).withAlpha(50),
                           ),
                           child: TextFormField(
+                            controller: passwordController,
                             onSaved: (val) => _password = val,
                             cursorColor: Color(0xff4d36ad),
                             obscureText: true,
@@ -588,7 +592,8 @@ implements LoginPageContract{
     });
     if(user.flaglogged == "logged"){
       print("Logged");
-      Navigator.of(context).pushNamed("/home");
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => Home(nameController.text)));
     }else{
       print("Not Logged");
     }

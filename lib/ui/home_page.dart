@@ -30,7 +30,6 @@ List<String> title = [
   "الأطباء",
   "المراكز",
 ];
-List<dynamic> Loc = [centerCards(), D_details(), laboratory(), pharmacy()];
 
 /*class Home_HomeState extends State<Home> {
   var currentPage = images.length - 1.0;
@@ -293,11 +292,15 @@ List<dynamic> Loc = [centerCards(), D_details(), laboratory(), pharmacy()];
 }*/
 
 class Home extends StatefulWidget {
+  String UserName;
+  Home(this.UserName);
   @override
-  Home_HomeState createState() => Home_HomeState();
+  Home_HomeState createState() => Home_HomeState(this.UserName);
 }
 
 class Home_HomeState extends State<Home> {
+  String UserName;
+  Home_HomeState(this.UserName);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -402,7 +405,7 @@ class Home_HomeState extends State<Home> {
             ),
             onTap: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => centerCards()));
+                  MaterialPageRoute(builder: (context) => centerCards(UserName)));
             },
           ),
           GestureDetector(
@@ -432,7 +435,7 @@ class Home_HomeState extends State<Home> {
             ),
             onTap: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => D_details()));
+                  MaterialPageRoute(builder: (context) => D_details(UserName)));
             },
           ),
           GestureDetector(
@@ -459,7 +462,7 @@ class Home_HomeState extends State<Home> {
             ),
             onTap: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => pharmacy()));
+                  MaterialPageRoute(builder: (context) => pharmacy(UserName)));
             },
           ),
           GestureDetector(
@@ -489,7 +492,7 @@ class Home_HomeState extends State<Home> {
             ),
             onTap: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => laboratory()));
+                  MaterialPageRoute(builder: (context) => laboratory(UserName)));
             },
           ),
         ],
@@ -514,7 +517,7 @@ class Home_HomeState extends State<Home> {
             child: Icon(Icons.home_outlined, color: Colors.white, size: 30),
             onTap: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Home()));
+                  MaterialPageRoute(builder: (context) => Home('')));
             },
           ),
           GestureDetector(

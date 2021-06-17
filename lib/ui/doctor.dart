@@ -329,14 +329,17 @@ class stateD_details extends State<D_details> {
 */
 
 class D_details extends StatefulWidget {
+  String UserName;
+  D_details(this.UserName);
   @override
   State<StatefulWidget> createState() {
-    return stateD_details();
+    return stateD_details(this.UserName);
   }
 }
 
 class stateD_details extends State<D_details> {
-
+  String UserName;
+  stateD_details(this.UserName);
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -466,7 +469,7 @@ class stateD_details extends State<D_details> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  Spc_Doctors(cards[index].doctor)));
+                                  Spc_Doctors(cards[index].doctor,UserName)));
                     },
                     shape: new RoundedRectangleBorder(
                         borderRadius: new BorderRadius.circular(20)),
@@ -524,7 +527,7 @@ class stateD_details extends State<D_details> {
             child: Icon(Icons.home_outlined, color: Colors.white, size: 30),
             onTap: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Home()));
+                  context, MaterialPageRoute(builder: (context) => Home('')));
             },
           ),
           GestureDetector(

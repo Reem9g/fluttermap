@@ -1,6 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_mab/model/user.dart';
 import 'package:flutter_app_mab/utils/databasee_helper_center.dart';
 import 'package:flutter_app_mab/model/center.dart';
 import 'doctor.dart';
@@ -11,14 +12,20 @@ import 'package:google_fonts/google_fonts.dart';
 
 
 class centerCards extends StatefulWidget {
+  String UserName;
+  centerCards(this.UserName);
   @override
-  centerCards_state createState() => centerCards_state();
+  centerCards_state createState() => centerCards_state(this.UserName);
 }
 
 class centerCards_state extends State<centerCards> {
+  String UserName;
+  centerCards_state(this.UserName);
   List<Centerr> items = List();
   DatabaseHelperCenter db = new DatabaseHelperCenter();
 
+  User user;
+  bool _isvisible = false;
   @override
   void initState() {
     super.initState();
@@ -190,31 +197,34 @@ class centerCards_state extends State<centerCards> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        D_details()));
+                                        D_details(UserName)));
                           },
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(right:285,top:3),
-                          child: Column(
-                            children: [
-                              IconButton(
-                                icon: Icon(
-                                    Icons.edit,
-                                    color: Color(0xff6D6298)
-                                ),
-                                onPressed: () => _navigateToCenter(
-                                    context, items[position]),
-                              ),
-                              IconButton(
+                        Visibility(
+                          visible : UserName == 'admin' ? !_isvisible: _isvisible,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right:285,top:3),
+                            child: Column(
+                              children: [
+                                IconButton(
                                   icon: Icon(
-                                    Icons.delete,
-                                    color: Color(0xff6D6298),
+                                      Icons.edit,
+                                      color: Color(0xff6D6298)
                                   ),
-                                  onPressed: () => _deleteCenter(
-                                      context,
-                                      items[position],
-                                      position))
-                            ],
+                                  onPressed: () => _navigateToCenter(
+                                      context, items[position]),
+                                ),
+                                IconButton(
+                                    icon: Icon(
+                                      Icons.delete,
+                                      color: Color(0xff6D6298),
+                                    ),
+                                    onPressed: () => _deleteCenter(
+                                        context,
+                                        items[position],
+                                        position))
+                              ],
+                            ),
                           ),
                         )
                       ],
@@ -247,7 +257,7 @@ class centerCards_state extends State<centerCards> {
             child: Icon(Icons.home_outlined, color: Colors.white, size: 30),
             onTap: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Home()));
+                  context, MaterialPageRoute(builder: (context) => Home('')));
             },
           ),
           GestureDetector(

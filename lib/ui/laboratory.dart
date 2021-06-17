@@ -1,5 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter_app_mab/model/laboratory.dart';
+import 'package:flutter_app_mab/model/user.dart';
 import 'package:flutter_app_mab/ui/AddLab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mab/utils/database_helper.dart';
@@ -8,26 +9,31 @@ import 'logIn.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class laboratory extends StatefulWidget {
+  String UserName;
+  laboratory(this.UserName);
   @override
-  laboratory_laboratoryState createState() => laboratory_laboratoryState();
+  laboratory_laboratoryState createState() =>
+      laboratory_laboratoryState(this.UserName);
 }
 
 class laboratory_laboratoryState extends State<laboratory> {
+  String UserName;
+  laboratory_laboratoryState(this.UserName);
   List<Laboratory> items = List();
   DatabaseHelper db = new DatabaseHelper();
-
+  User user;
+  bool _isvisible = false;
   @override
   void initState() {
     super.initState();
-    db.getAllLaboratorys().then((laboratorys){
+    db.getAllLaboratorys().then((laboratorys) {
       setState(() {
-        laboratorys.forEach((laboratory){
+        laboratorys.forEach((laboratory) {
           items.add(Laboratory.fromMap(laboratory));
         });
       });
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +45,7 @@ class laboratory_laboratoryState extends State<laboratory> {
         elevation: 0,
         title: Container(
           padding: EdgeInsets.only(top: 5),
-          child:
-          Column(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
@@ -51,7 +56,7 @@ class laboratory_laboratoryState extends State<laboratory> {
                   // controller: _doctorName,
                   decoration: InputDecoration(
                     contentPadding:
-                    EdgeInsets.only(left: 20, top: 10, bottom: 10),
+                        EdgeInsets.only(left: 20, top: 10, bottom: 10),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15.0)),
                       borderSide: BorderSide.none,
@@ -67,7 +72,7 @@ class laboratory_laboratoryState extends State<laboratory> {
                     suffixIcon: Container(
                       decoration: BoxDecoration(
                         color: //Colors.blue[900].withOpacity(0.9),
-                        Color(0xff6D6298),
+                            Color(0xff6D6298),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: IconButton(
@@ -110,101 +115,102 @@ class laboratory_laboratoryState extends State<laboratory> {
       body: Column(
         children: <Widget>[
           Expanded(
-              child:  ListView.builder(
-                  itemCount: items.length,
-                  itemBuilder: (context, position) {
-                    return Stack(
-                      children: <Widget>[
-                        Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              Image.asset('assets/Image/blood.ico'),
-                            ],
-                          ),
-                          margin: EdgeInsets.only(top: 10, right: 30, left: 30),
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: Color(0xff6D6298),
-                          ),
+            child: ListView.builder(
+                itemCount: items.length,
+                itemBuilder: (context, position) {
+                  return Stack(
+                    children: <Widget>[
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Image.asset('assets/Image/blood.ico'),
+                          ],
                         ),
-                        Container(
-                          height: 80,
-                          width: 200,
-                          child: Row(
-                            children: <Widget>[
-                              Column(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Row(
-                                      children: <Widget>[
-                                        Text('${items[position].from}',),
-                                        Text(' :البدء',
-                                            //  textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold
-                                            )),
-                                      ],
-                                    ),
-                                  ),
-                                  Row(
+                        margin: EdgeInsets.only(top: 10, right: 30, left: 30),
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Color(0xff6D6298),
+                        ),
+                      ),
+                      Container(
+                        height: 80,
+                        width: 200,
+                        child: Row(
+                          children: <Widget>[
+                            Column(
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Row(
                                     children: <Widget>[
-                                      Text('${items[position].to}'),
-                                      Text(' :الانتهاء',
+                                      Text(
+                                        '${items[position].from}',
+                                      ),
+                                      Text(' :البدء',
+                                          //  textAlign: TextAlign.left,
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold)),
-
                                     ],
                                   ),
-                                ],
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left:8.0,right: 8,bottom:8,top:8),
-                                  child: ListTile(
-                                      title: Text(
-                                        '${items[position].name}',
-                                        textAlign: TextAlign.right,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      subtitle: Column(
-                                        children: [
-                                          Text(
-                                            '${items[position].phone}',
-                                            textAlign: TextAlign.right,
-                                          ),
-                                          Text(
-                                            '${items[position].address}',
-                                            textAlign: TextAlign.right,
-                                          ),
-                                        ],
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.end,
-                                      )),
                                 ),
+                                Row(
+                                  children: <Widget>[
+                                    Text('${items[position].to}'),
+                                    Text(' :الانتهاء',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8.0, right: 8, bottom: 8, top: 8),
+                                child: ListTile(
+                                    title: Text(
+                                      '${items[position].name}',
+                                      textAlign: TextAlign.right,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    subtitle: Column(
+                                      children: [
+                                        Text(
+                                          '${items[position].phone}',
+                                          textAlign: TextAlign.right,
+                                        ),
+                                        Text(
+                                          '${items[position].address}',
+                                          textAlign: TextAlign.right,
+                                        ),
+                                      ],
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                    )),
                               ),
-                            ],
-                          ),
-                          margin:
-                          EdgeInsets.only(top: 20, right: 30, left: 30),
-                          padding: EdgeInsets.all(1),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Color(0xffd7d6e6)
-                          ),
+                            ),
+                          ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(right:285),
+                        margin: EdgeInsets.only(top: 20, right: 30, left: 30),
+                        padding: EdgeInsets.all(1),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Color(0xffd7d6e6)),
+                      ),
+                      Visibility(
+                        visible: UserName == 'admin' ? !_isvisible : _isvisible,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 285),
                           child: Column(
                             children: [
                               IconButton(
-                                icon: Icon(
-                                    Icons.edit,
-                                    color: Color(0xff6D6298)
-                                ),
+                                icon:
+                                    Icon(Icons.edit, color: Color(0xff6D6298)),
                                 onPressed: () => _navigateToLaortory(
                                     context, items[position]),
                               ),
@@ -214,15 +220,14 @@ class laboratory_laboratoryState extends State<laboratory> {
                                     color: Color(0xff6D6298),
                                   ),
                                   onPressed: () => _deleteLabortory(
-                                      context,
-                                      items[position],
-                                      position))
+                                      context, items[position], position))
                             ],
                           ),
-                        )
-                      ],
-                    );
-                  }),
+                        ),
+                      )
+                    ],
+                  );
+                }),
           ),
         ],
       ),
@@ -254,7 +259,7 @@ class laboratory_laboratoryState extends State<laboratory> {
             child: Icon(Icons.home_outlined, color: Colors.white, size: 30),
             onTap: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Home()));
+                  context, MaterialPageRoute(builder: (context) => Home('')));
             },
           ),
           GestureDetector(

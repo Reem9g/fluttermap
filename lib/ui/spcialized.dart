@@ -2,6 +2,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mab/model/doctor.dart';
+import 'package:flutter_app_mab/model/user.dart';
 import 'package:flutter_app_mab/ui/AddDoctor.dart';
 import 'package:flutter_app_mab/utils/database_helper_doctor.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,20 +11,23 @@ import 'home_page.dart';
 import 'logIn.dart';
 
 class Spc_Doctors extends StatefulWidget {
+  String UserName;
   String Spec;
-  Spc_Doctors(this.Spec);
+  Spc_Doctors(this.Spec,this.UserName);
   @override
   State<StatefulWidget> createState() {
-    return stateSpc_Doctors(this.Spec);
+    return stateSpc_Doctors(this.Spec,this.UserName);
   }
 }
 
 class stateSpc_Doctors extends State<Spc_Doctors> {
-  String Spec;
-  stateSpc_Doctors(this.Spec);
+
+  String Spec,UserName;
+  stateSpc_Doctors(this.Spec,this.UserName);
   List<Doctor> items = List();
   DatabaseHelperDoctor db = new DatabaseHelperDoctor();
-
+  User user;
+  bool _isvisible = false;
   @override
   void initState() {
     super.initState();
@@ -169,28 +173,31 @@ class stateSpc_Doctors extends State<Spc_Doctors> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(right:285,top:3),
-                      child: Column(
-                        children: [
-                          IconButton(
-                            icon: Icon(
-                                Icons.edit,
-                                color: Color(0xff6D6298)
-                            ),
-                            onPressed: () => _navigateToDoctor(
-                                context, items[index]),
-                          ),
-                          IconButton(
+                    Visibility(
+                      visible : UserName == 'admin' ? !_isvisible: _isvisible,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right:285,top:3),
+                        child: Column(
+                          children: [
+                            IconButton(
                               icon: Icon(
-                                Icons.delete,
-                                color: Color(0xff6D6298),
+                                  Icons.edit,
+                                  color: Color(0xff6D6298)
                               ),
-                              onPressed: () => _deleteDoctor(
-                                  context,
-                                  items[index],
-                                  index))
-                        ],
+                              onPressed: () => _navigateToDoctor(
+                                  context, items[index]),
+                            ),
+                            IconButton(
+                                icon: Icon(
+                                  Icons.delete,
+                                  color: Color(0xff6D6298),
+                                ),
+                                onPressed: () => _deleteDoctor(
+                                    context,
+                                    items[index],
+                                    index))
+                          ],
+                        ),
                       ),
                     )
                   ],
@@ -226,7 +233,7 @@ class stateSpc_Doctors extends State<Spc_Doctors> {
             child: Icon(Icons.home_outlined, color: Colors.white, size: 30),
             onTap: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Home()));
+                  context, MaterialPageRoute(builder: (context) => Home('')));
             },
           ),
           GestureDetector(

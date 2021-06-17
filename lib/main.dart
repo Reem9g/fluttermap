@@ -24,7 +24,7 @@ void main() async {
 }
 final routes = {
   '/login': (BuildContext context) => new LoginScreen(),
-  '/home': (BuildContext context) => new Home(),
+  '/home': (BuildContext context) => new Home(''),
   //'/register': (BuildContext context) => new RegisterPage(),
   '/': (BuildContext context) => new LoginScreen(),
 };
