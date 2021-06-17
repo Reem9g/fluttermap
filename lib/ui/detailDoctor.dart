@@ -5,15 +5,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'home_page.dart';
 import 'logIn.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 
 class TaskScreen extends StatefulWidget {
-  String Name, Spec, About, From, To, Phone;
-  TaskScreen(this.Name, this.Spec, this.About, this.From, this.To, this.Phone);
+  String Name, Spec, About, From, To, Phone,UserName;
+  TaskScreen(this.Name, this.Spec, this.About, this.From, this.To, this.Phone,this.UserName);
   @override
   State<StatefulWidget> createState() {
     return StateTaskScreen(
-        this.Name, this.Spec, this.About, this.From, this.To, this.Phone);
+        this.Name, this.Spec, this.About, this.From, this.To, this.Phone,this.UserName);
   }
 }
 
@@ -26,9 +25,9 @@ class StateTaskScreen extends State<TaskScreen> {
     }
   }
 
-  String Name, Spec, About, From, To, Phone;
+  String Name, Spec, About, From, To, Phone,UserName;
   StateTaskScreen(
-      this.Name, this.Spec, this.About, this.From, this.To, this.Phone);
+      this.Name, this.Spec, this.About, this.From, this.To, this.Phone,this.UserName);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
