@@ -37,6 +37,8 @@ dependencies:
   carousel_slider: ^3.0.0
   google_nav_bar: ^4.0.2
   typicons_flutter: ^0.4.2
+  convex_bottom_bar: ^2.7.1+2
+  introduction_screen: ^1.0.9
 
 
 
@@ -98,6 +100,9 @@ flutter:
     - assets/Image/blood.ico
     - assets/Image/414-bg.png
     - assets/Image/covid-bg.png
+    - assets/Image/disease.png
+    - assets/Image/doc.png
+    - assets/Image/error-404.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

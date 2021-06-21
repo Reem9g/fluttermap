@@ -37,13 +37,9 @@ class AddPharmacyState extends State<AddPharmacy> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.only(top:28.0),
-        child: Center(
+      body: Center(
+        child: SingleChildScrollView(
           child: Column(
-            children: <Widget>[
-              Expanded(
-                  child:Column(
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(right: 5.0, top: 40, left: 5.0),
@@ -55,6 +51,7 @@ class AddPharmacyState extends State<AddPharmacy> {
                             color: Color(0xff4d36ad).withAlpha(50),
                           ),
                           child: TextField(
+                            textInputAction: TextInputAction.next,
                             controller: _nameController,
                             textAlign: TextAlign.right,
                             cursorColor: Color(0xff4d36ad),
@@ -80,6 +77,8 @@ class AddPharmacyState extends State<AddPharmacy> {
                             color: Color(0xff4d36ad).withAlpha(50),
                           ),
                           child: TextField(
+                            textInputAction: TextInputAction.next,
+                            keyboardType: TextInputType.streetAddress,
                             controller: _addressController,
                             textAlign: TextAlign.right,
                             cursorColor: Color(0xff4d36ad),
@@ -106,6 +105,8 @@ class AddPharmacyState extends State<AddPharmacy> {
                             color: Color(0xff4d36ad).withAlpha(50),
                           ),
                           child: TextField(
+                            textInputAction: TextInputAction.next,
+                            keyboardType: TextInputType.phone,
                             controller: _phoneController,
                             textAlign: TextAlign.right,
                             cursorColor: Color(0xff4d36ad),
@@ -131,6 +132,7 @@ class AddPharmacyState extends State<AddPharmacy> {
                             color: Color(0xff4d36ad).withAlpha(50),
                           ),
                           child: TextField(
+                            textInputAction: TextInputAction.next,
                             controller: _fromController,
                             textAlign: TextAlign.right,
                             cursorColor: Color(0xff4d36ad),
@@ -157,6 +159,7 @@ class AddPharmacyState extends State<AddPharmacy> {
                             color: Color(0xff4d36ad).withAlpha(50),
                           ),
                           child: TextField(
+                            textInputAction: TextInputAction.next,
                             controller: _toController,
                             textAlign: TextAlign.right,
                             cursorColor: Color(0xff4d36ad),
@@ -230,11 +233,8 @@ class AddPharmacyState extends State<AddPharmacy> {
                           })
                     ],
                   )
-              )
-            ],
-          ),
         ),
-      ),
+      )
     );
   }
 }

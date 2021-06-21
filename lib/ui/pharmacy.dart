@@ -1,12 +1,15 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mab/model/pharmacy.dart';
 import 'package:flutter_app_mab/model/user.dart';
+import 'package:flutter_app_mab/ui/searchList.dart';
 import 'package:flutter_app_mab/utils/database_helper_phar.dart';
 import 'AddPharmacy.dart';
 import 'home_page.dart';
 import 'logIn.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'mapScreen.dart';
 class pharmacy extends StatefulWidget {
   String UserName;
   pharmacy(this.UserName);
@@ -87,7 +90,7 @@ class pharmacy_pharmacyState extends State<pharmacy> {
                     fontSize: 18,
                     fontWeight: FontWeight.w800,
                   ),
-                  /* onFieldSubmitted: (String value) {
+                   onFieldSubmitted: (String value) {
                 setState(
                       () {
                     value.length == 0
@@ -102,7 +105,7 @@ class pharmacy_pharmacyState extends State<pharmacy> {
                     );
                   },
                 );
-              },*/
+              },
                 ),
               ),
             ],
@@ -134,61 +137,6 @@ class pharmacy_pharmacyState extends State<pharmacy> {
                           color: Color(0xff6D6298),
                         ),
                       ),
-                      /*  Container(
-                            child: Row(
-                              children: <Widget>[
-                                Column(
-                                  children: <Widget>[
-                                    Row(
-                                      children: <Widget>[
-                                        Text('${items[position].from}',),
-                                        Text(' :البدء',
-                                            //  textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold
-                                            )),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: <Widget>[
-                                        Text('${items[position].to}'),
-                                        Text(' :الانتهاء',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold)),
-
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Expanded(
-                                  child: ListTile(
-                                      title: Text(
-                                        '${items[position].name}',
-                                        textAlign: TextAlign.right,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      subtitle: Column(
-                                        children: [
-                                          Text(
-                                            '${items[position].phone}',
-                                            textAlign: TextAlign.right,
-                                          ),
-                                          Text(
-                                            '${items[position].address}',
-                                            textAlign: TextAlign.right,
-                                          ),
-                                        ],
-                                      )),
-                                ),
-                              ],
-                            ),
-                            margin: EdgeInsets.only(top: 16.5, right: 88, left: 35),
-                            padding: EdgeInsets.all(1.5),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(3),
-                                color: Color(0xffd7d6e6)),
-                          ),*/
                       Container(
                         height: 80,
                         width: 200,
@@ -302,47 +250,29 @@ class pharmacy_pharmacyState extends State<pharmacy> {
           backgroundColor: Color(0xff6D6298),
         ),
       ),
-      bottomNavigationBar: CurvedNavigationBar(
-        //  key: _bottomNavigationKey,
-        //   index: 1,
-        height: 55.0,
-        items: <Widget>[
-          GestureDetector(
-            child: Icon(Icons.stay_current_portrait,
-                color: Colors.white, size: 30),
-            // onTap: ,
-          ),
-          GestureDetector(
-            child: Icon(Icons.location_pin, color: Colors.white, size: 30),
-            // onTap: ,
-          ),
-          GestureDetector(
-            child: Icon(Icons.home_outlined, color: Colors.white, size: 30),
-            onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Home(UserName)));
-            },
-          ),
-          GestureDetector(
-            child: Icon(Icons.login_outlined, color: Colors.white, size: 30),
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => LoginScreen()));
-            },
-          ),
-        ],
-        color: Color(0xff6D6298),
-        // buttonBackgroundColor: Color(0xff453097),
-        backgroundColor: Colors.white,
-        //  animationCurve: Curves.easeInOut,
-        //  animationDuration: Duration(milliseconds: 600),
-        /* onTap: (index) {
-          setState(() {
-            _page = index;
-          });
-        },*/
-        letIndexChange: (index) => true,
-      ),
+        bottomNavigationBar: ConvexAppBar(
+            backgroundColor: Color(0xff6D6298),
+            //  color: Color(0xff6D6298),
+            style: TabStyle.react,
+            items: [
+              TabItem(icon: Icons.stay_current_portrait),
+              TabItem(icon: Icons.location_pin),
+              TabItem(icon: Icons.home_outlined,),
+              TabItem(icon: Icons.login_outlined),
+            ],
+            initialActiveIndex: 0,
+            onTap: (int i) {
+              if(i==1)
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => map()));
+              else if(i==2)
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Home(UserName)));
+              else if(i==3)
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()));
+            }
+        )
     );
   }
 

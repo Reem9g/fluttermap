@@ -1,12 +1,14 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mab/model/cardModel.dart';
+import 'package:flutter_app_mab/ui/searchList.dart';
 import 'package:flutter_app_mab/ui/spcialized.dart';
-import 'package:flutter_app_mab/ui/detailDoctor.dart';
 import 'carouselSlider.dart';
 import 'home_page.dart';
 import 'logIn.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'mapScreen.dart';
 
 //OldCode
 /*import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -342,7 +344,8 @@ class stateD_details extends State<D_details> {
   stateD_details(this.UserName);
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
         automaticallyImplyLeading: false,
         actions: <Widget>[Container()],
         backgroundColor: Colors.white,
@@ -392,7 +395,7 @@ class stateD_details extends State<D_details> {
                     fontSize: 18,
                     fontWeight: FontWeight.w800,
                   ),
-                  /* onFieldSubmitted: (String value) {
+                   onFieldSubmitted: (String value) {
                 setState(
                       () {
                     value.length == 0
@@ -407,14 +410,13 @@ class stateD_details extends State<D_details> {
                     );
                   },
                 );
-              },*/
+              },
                 ),
               ),
             ],
           ),
         ),
       ),
-      resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
       body: Column(
        // crossAxisAlignment: CrossAxisAlignment.end,
@@ -511,36 +513,29 @@ class stateD_details extends State<D_details> {
           ),
         ],
       ),
-      bottomNavigationBar: CurvedNavigationBar(
-        height: 55.0,
-        items: <Widget>[
-          GestureDetector(
-            child: Icon(Icons.stay_current_portrait,
-                color: Colors.white, size: 30),
-            // onTap: ,
-          ),
-          GestureDetector(
-            child: Icon(Icons.location_pin, color: Colors.white, size: 30),
-            // onTap: ,
-          ),
-          GestureDetector(
-            child: Icon(Icons.home_outlined, color: Colors.white, size: 30),
-            onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Home(UserName)));
-            },
-          ),
-          GestureDetector(
-            child: Icon(Icons.login_outlined, color: Colors.white, size: 30),
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => LoginScreen()));
-            },
-          ),
-        ],
-        color: Color(0xff6D6298),
-        backgroundColor: Colors.white,
-      ),
+        bottomNavigationBar: ConvexAppBar(
+            backgroundColor: Color(0xff6D6298),
+            //  color: Color(0xff6D6298),
+            style: TabStyle.react,
+            items: [
+              TabItem(icon: Icons.stay_current_portrait),
+              TabItem(icon: Icons.location_pin),
+              TabItem(icon: Icons.home_outlined,),
+              TabItem(icon: Icons.login_outlined),
+            ],
+            initialActiveIndex: 0,
+            onTap: (int i) {
+              if(i==1)
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => map()));
+              else if(i==2)
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Home(UserName)));
+              else if(i==3)
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()));
+            }
+        )
     );
   }
 }

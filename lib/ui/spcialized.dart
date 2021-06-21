@@ -1,14 +1,16 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mab/model/doctor.dart';
 import 'package:flutter_app_mab/model/user.dart';
 import 'package:flutter_app_mab/ui/AddDoctor.dart';
+import 'package:flutter_app_mab/ui/searchList.dart';
 import 'package:flutter_app_mab/utils/database_helper_doctor.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'detailDoctor.dart';
 import 'home_page.dart';
 import 'logIn.dart';
+import 'mapScreen.dart';
 
 class Spc_Doctors extends StatefulWidget {
   String UserName;
@@ -94,7 +96,7 @@ class stateSpc_Doctors extends State<Spc_Doctors> {
                     fontSize: 18,
                     fontWeight: FontWeight.w800,
                   ),
-                  /* onFieldSubmitted: (String value) {
+                   onFieldSubmitted: (String value) {
                 setState(
                       () {
                     value.length == 0
@@ -109,7 +111,7 @@ class stateSpc_Doctors extends State<Spc_Doctors> {
                     );
                   },
                 );
-              },*/
+              },
                 ),
               ),
             ],
@@ -166,7 +168,8 @@ class stateSpc_Doctors extends State<Spc_Doctors> {
                                                 items[index].from,
                                                 items[index].to,
                                               items[index].phone,
-                                                UserName
+                                                UserName,
+                                              items[index].address
                                             )));
                               },
                             ),
@@ -219,47 +222,29 @@ class stateSpc_Doctors extends State<Spc_Doctors> {
           backgroundColor: Color(0xff6D6298),
         ),
       ),
-      bottomNavigationBar: CurvedNavigationBar(
-        //  key: _bottomNavigationKey,
-        // index: 1,
-        height: 55.0,
-        items: <Widget>[
-          GestureDetector(
-            child: Icon(Icons.stay_current_portrait,
-                color: Colors.white, size: 30),
-            // onTap: ,
-          ),
-          GestureDetector(
-            child: Icon(Icons.location_pin, color: Colors.white, size: 30),
-            // onTap: ,
-          ),
-          GestureDetector(
-            child: Icon(Icons.home_outlined, color: Colors.white, size: 30),
-            onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Home(UserName)));
-            },
-          ),
-          GestureDetector(
-            child: Icon(Icons.login_outlined, color: Colors.white, size: 30),
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => LoginScreen()));
-            },
-          ),
-        ],
-        color: Color(0xff6D6298),
-        // buttonBackgroundColor: Color(0xff453097),
-        backgroundColor: Colors.white,
-        //  animationCurve: Curves.easeInOut,
-        //  animationDuration: Duration(milliseconds: 600),
-        /* onTap: (index) {
-          setState(() {
-            _page = index;
-          });
-        },*/
-        letIndexChange: (index) => true,
-      ),
+        bottomNavigationBar: ConvexAppBar(
+            backgroundColor: Color(0xff6D6298),
+            //  color: Color(0xff6D6298),
+            style: TabStyle.react,
+            items: [
+              TabItem(icon: Icons.stay_current_portrait),
+              TabItem(icon: Icons.location_pin),
+              TabItem(icon: Icons.home_outlined,),
+              TabItem(icon: Icons.login_outlined),
+            ],
+            initialActiveIndex: 0,
+            onTap: (int i) {
+              if(i==1)
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => map()));
+              else if(i==2)
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Home(UserName)));
+              else if(i==3)
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()));
+            }
+        )
     );
   }
 

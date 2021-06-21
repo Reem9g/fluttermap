@@ -2,6 +2,9 @@
 import 'package:flutter_app_mab/ui/home_page.dart';
 import 'package:flutter_app_mab/ui/logIn.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_mab/ui/skip.dart';
+
+import 'model/user.dart';
 //import 'package:parse_server_sdk/parse_server_sdk.dart';
 
 
@@ -22,20 +25,24 @@ void main() async {
   }*/
   runApp(MyApp());
 }
-final routes = {
-  '/login': (BuildContext context) => new LoginScreen(),
-  '/home': (BuildContext context) => new Home(''),
-  //'/register': (BuildContext context) => new RegisterPage(),
-  '/': (BuildContext context) => new LoginScreen(),
-};
+
 class MyApp extends StatelessWidget {
 
-
+  User user;
+  Future<void> _getUser() async {
+    user = _getUser() as User;
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(debugShowCheckedModeBanner: false,
        // home: LoginPage(),
-      routes: routes,
+      routes: {
+        '/': (context) => user == null ? Skip() : LoginScreen(),
+        '/login': (BuildContext context) => new LoginScreen(),
+        '/home': (BuildContext context) => new Home(''),
+        //'/register': (BuildContext context) => new RegisterPage(),
+      //  '/': (BuildContext context) => new LoginScreen(),
+      }
     );
   }
 }

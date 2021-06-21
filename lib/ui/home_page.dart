@@ -1,4 +1,4 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_app_mab/ui/mapScreen.dart';
@@ -6,9 +6,9 @@ import 'package:flutter_app_mab/ui/pharmacy.dart';
 import 'package:flutter_app_mab/ui/laboratory.dart';
 import 'package:flutter_app_mab/ui/center.dart';
 import 'package:flutter_app_mab/ui/doctor.dart';
+import 'package:flutter_app_mab/ui/searchList.dart';
 import 'logIn.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 // Main Code
 /*class Home extends StatefulWidget {
   @override
@@ -355,7 +355,7 @@ class Home_HomeState extends State<Home> {
                     fontSize: 18,
                     fontWeight: FontWeight.w800,
                   ),
-                  /* onFieldSubmitted: (String value) {
+                   onFieldSubmitted: (String value) {
                 setState(
                       () {
                     value.length == 0
@@ -370,7 +370,7 @@ class Home_HomeState extends State<Home> {
                     );
                   },
                 );
-              },*/
+              },
                 ),
               ),
             ],
@@ -497,7 +497,31 @@ class Home_HomeState extends State<Home> {
           ),
         ],
       ),
-      bottomNavigationBar: CurvedNavigationBar(
+        bottomNavigationBar: ConvexAppBar(
+          backgroundColor: Color(0xff6D6298),
+        //  color: Color(0xff6D6298),
+          style: TabStyle.react,
+          items: [
+            TabItem(icon: Icons.stay_current_portrait),
+            TabItem(icon: Icons.location_pin),
+            TabItem(icon: Icons.home_outlined,),
+            TabItem(icon: Icons.login_outlined),
+          ],
+          initialActiveIndex: 2,
+          onTap: (int i) {
+            if(i==1)
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => map()));
+            else if(i==2)
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Home(UserName)));
+            else if(i==3)
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => LoginScreen()));
+    }
+        )
+
+    /*  bottomNavigationBar: CurvedNavigationBar(
         //  key: _bottomNavigationKey,
         index: 2,
         height: 55.0,
@@ -539,7 +563,8 @@ class Home_HomeState extends State<Home> {
           });
         },*/
         letIndexChange: (index) => true,
-      ),
+      ),*/
+
     );
   }
 }

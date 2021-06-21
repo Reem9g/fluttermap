@@ -83,6 +83,7 @@ implements LoginPageContract{
     ));
 
     return Scaffold(
+      backgroundColor: Colors.white,
       key: scaffoldKeyL,
       resizeToAvoidBottomInset: false,
       body: Stack(
@@ -243,123 +244,122 @@ implements LoginPageContract{
               ),
             ),
           ),
+
           // login form
-          Form(
-            key: formKeyL,
-            child: AnimatedOpacity(
-              duration: animationDuration * 4,
-              opacity: isLogin ? 1.0 : 0.0,
-              child:
-              Align(
-                alignment: Alignment.center,
-                child: Container(
-                  width: size.width,
-                  height: defaultLoginSize,
-                  child: ListView(
-                    primary: false,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 40.0, top: 160),
-                        child: Container(
-                          // margin: EdgeInsets.symmetric(vertical: 10),
-                          padding:
-                          EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                          width: size.width * 0.8,
-                          //  height: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(55.0)),
-                            color: Color(0xff4d36ad).withAlpha(50),
-                          ),
-                          child: TextFormField(
-                            controller: nameController,
-                            onSaved: (val) => _Number = val,
-                            cursorColor: Color(0xff4d36ad),
-                            decoration: InputDecoration(
-                              icon: Icon(Icons.assignment_turned_in_sharp,
-                                  color: Color(0xff4d36ad)),
-                              hintText: 'اسم المستخدم',
-                              hintStyle: TextStyle(
-                                color: Color(0xff4d36ad),
-                                // fontWeight: FontWeight.bold,
-                              ),
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 40.0),
-                        child: Container(
-                          //margin: EdgeInsets.only(bottom: 0),
-                          padding:
-                          EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                          width: size.width * 0.8,
-                          //  height: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(55.0)),
-                            color: Color(0xff4d36ad).withAlpha(50),
-                          ),
-                          child: TextFormField(
-                            controller: passwordController,
-                            onSaved: (val) => _password = val,
-                            cursorColor: Color(0xff4d36ad),
-                            obscureText: true,
-                            decoration: InputDecoration(
-                              icon: Icon(
-                                Icons.lock,
-                                color: Color(0xff4d36ad),
-                              ),
-                              hintText: 'كلمة السر',
-                              hintStyle: TextStyle(
-                                color: Color(0xff4d36ad),
-                              ),
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        child: Padding(
-                          padding:
-                          const EdgeInsets.only(left:100, right: 100, top: 20),
+        Form(
+              key: formKeyL,
+              child: AnimatedOpacity(
+                duration: animationDuration * 4,
+                opacity: isLogin ? 1.0 : 0.0,
+                child:
+                Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    width: size.width,
+                    height: defaultLoginSize,
+                    child: ListView(
+                      primary: false,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 40.0, top: 120),
                           child: Container(
+                            // margin: EdgeInsets.symmetric(vertical: 10),
+                            padding:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                            width: size.width * 0.8,
+                            //  height: 50,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                //  borderRadius: BorderRadius.all(Radius.circular(33)),
-                                color: Color(0xff4d36ad)
+                              borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(55.0)),
+                              color: Color(0xff4d36ad).withAlpha(50),
                             ),
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            alignment: Alignment.center,
-                            child: Text(
-                              'تسجيل الدخول',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
+                            child: TextFormField(
+                              controller: nameController,
+                              onSaved: (val) => _Number = val,
+                              cursorColor: Color(0xff4d36ad),
+                              decoration: InputDecoration(
+                                icon: Icon(Icons.assignment_turned_in_sharp,
+                                    color: Color(0xff4d36ad)),
+                                hintText: 'اسم المستخدم',
+                                hintStyle: TextStyle(
+                                  color: Color(0xff4d36ad),
+                                  // fontWeight: FontWeight.bold,
+                                ),
+                                border: InputBorder.none,
                               ),
                             ),
                           ),
                         ),
-                        onTap: _submit,
-                      ),
-                      FlatButton(
-                        onPressed: () {/*forgot password screen*/},
-                        textColor: Color(0xff4d36ad),
-                        child: Text(
-                          'نسيت كلمة المرور ؟',
-                          textAlign: TextAlign.center,
+                        Padding(
+                          padding: const EdgeInsets.only(right: 40.0),
+                          child: Container(
+                            //margin: EdgeInsets.only(bottom: 0),
+                            padding:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                            width: size.width * 0.8,
+                            //  height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  bottomRight: Radius.circular(55.0)),
+                              color: Color(0xff4d36ad).withAlpha(50),
+                            ),
+                            child: TextFormField(
+                              controller: passwordController,
+                              onSaved: (val) => _password = val,
+                              cursorColor: Color(0xff4d36ad),
+                              obscureText: true,
+                              decoration: InputDecoration(
+                                icon: Icon(
+                                  Icons.lock,
+                                  color: Color(0xff4d36ad),
+                                ),
+                                hintText: 'كلمة السر',
+                                hintStyle: TextStyle(
+                                  color: Color(0xff4d36ad),
+                                ),
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
+                        GestureDetector(
+                          child: Padding(
+                            padding:
+                            const EdgeInsets.only(left:100, right: 100, top: 20),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  //  borderRadius: BorderRadius.all(Radius.circular(33)),
+                                  color: Color(0xff4d36ad)
+                              ),
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              alignment: Alignment.center,
+                              child: Text(
+                                'تسجيل الدخول',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                          ),
+                          onTap: _submit,
+                        ),
+                        FlatButton(
+                          onPressed: () {/*forgot password screen*/},
+                          textColor: Color(0xff4d36ad),
+                          child: Text(
+                            'نسيت كلمة المرور ؟',
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-
-
-          // register container
+  // register container
           AnimatedBuilder(
             animation: animationController,
             builder: (context, child) {
@@ -387,13 +387,14 @@ implements LoginPageContract{
                   child: Container(
                     width: size.width,
                     height: defaultLoginSize,
-                    child: SingleChildScrollView(
-                      child: Column(
+                    child: ListView(
+                      primary: false,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(top: 70.0),
+                            padding: const EdgeInsets.only(top: 20.0),
                             child: Text(
                               'أهلاً وسهلاً',
+                              textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Color(0xff4d36ad),
                                   // fontWeight: FontWeight.bold,
@@ -403,7 +404,7 @@ implements LoginPageContract{
                           ),
                           Padding(
                             padding:
-                            const EdgeInsets.only(right: 40.0, top: 120),
+                            const EdgeInsets.only(right: 40.0, top: 30),
                             child: Container(
                               // margin: EdgeInsets.symmetric(vertical: 10),
                               padding: EdgeInsets.symmetric(
@@ -416,6 +417,7 @@ implements LoginPageContract{
                                 color: Color(0xff4d36ad).withAlpha(50),
                               ),
                               child: TextFormField(
+                                keyboardType: TextInputType.number,
                                 onSaved: (val) => _NumberS = val,
                                 cursorColor: Color(0xff4d36ad),
                                 decoration: InputDecoration(
@@ -526,7 +528,6 @@ implements LoginPageContract{
                             ),
                           ),
                         ],
-                      ),
                     ),
                   ),
                 ),
