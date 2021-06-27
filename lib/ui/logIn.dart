@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_mab/model/user.dart';
 import 'package:flutter_app_mab/ui/login_presenter.dart';
 import 'package:flutter_app_mab/utils/database_helperUser.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'home_page.dart';
 
@@ -17,6 +19,14 @@ implements LoginPageContract{
 
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  TextEditingController nameRegController = TextEditingController();
+  TextEditingController passwordRegController = TextEditingController();
+  TextEditingController numRegController = TextEditingController();
+
+  FocusNode f1 = new FocusNode();
+  FocusNode f2 = new FocusNode();
+  FocusNode f3 = new FocusNode();
 
   bool isLogin = true;
   Animation<double> contanerSize;
@@ -274,6 +284,7 @@ implements LoginPageContract{
                               color: Color(0xff4d36ad).withAlpha(50),
                             ),
                             child: TextFormField(
+                              textInputAction: TextInputAction.next,
                               controller: nameController,
                               onSaved: (val) => _Number = val,
                               cursorColor: Color(0xff4d36ad),
@@ -304,6 +315,7 @@ implements LoginPageContract{
                               color: Color(0xff4d36ad).withAlpha(50),
                             ),
                             child: TextFormField(
+                              textInputAction: TextInputAction.next,
                               controller: passwordController,
                               onSaved: (val) => _password = val,
                               cursorColor: Color(0xff4d36ad),
@@ -346,7 +358,9 @@ implements LoginPageContract{
                           onTap: _submit,
                         ),
                         FlatButton(
-                          onPressed: () {/*forgot password screen*/},
+                          onPressed: () {
+                            showAlertDialog(context);
+                            },
                           textColor: Color(0xff4d36ad),
                           child: Text(
                             'نسيت كلمة المرور ؟',
@@ -417,6 +431,9 @@ implements LoginPageContract{
                                 color: Color(0xff4d36ad).withAlpha(50),
                               ),
                               child: TextFormField(
+                                focusNode: f1,
+                                controller: numRegController,
+                                textInputAction: TextInputAction.next,
                                 keyboardType: TextInputType.number,
                                 onSaved: (val) => _NumberS = val,
                                 cursorColor: Color(0xff4d36ad),
@@ -443,6 +460,9 @@ implements LoginPageContract{
                                   vertical: 5, horizontal: 20),
                               width: size.width * 0.8,
                               child: TextFormField(
+                                focusNode: f2,
+                                controller: nameRegController,
+                                textInputAction: TextInputAction.next,
                                 onSaved: (val) => _UserName = val,
                                 cursorColor: Color(0xff4d36ad),
                                 decoration: InputDecoration(
@@ -472,6 +492,9 @@ implements LoginPageContract{
                                 color: Color(0xff4d36ad).withAlpha(50),
                               ),
                               child: TextFormField(
+                                focusNode: f3,
+                                controller: passwordRegController,
+                                textInputAction: TextInputAction.next,
                                 onSaved: (val) => _passwordS = val,
                                 cursorColor: Color(0xff4d36ad),
                                 obscureText: true,
@@ -513,7 +536,8 @@ implements LoginPageContract{
                               ),
                               onTap: (){
                                 final form = formKeyS.currentState;
-                                if (form.validate()) {
+                                if (form.validate() && nameRegController.text.isNotEmpty
+                                && numRegController.text.isNotEmpty && passwordRegController.text.isNotEmpty) {
                                   setState(() {
                                     _isLoadingS = true;
                                     form.save();
@@ -523,6 +547,9 @@ implements LoginPageContract{
                                     _isLoadingS = false;
                                     Navigator.of(context).pushNamed("/login");
                                   });
+                                }
+                                else {
+                                  _showSnackBar("لطفاً يجب ملئ كافة البيانات");
                                 }
                                }
                             ),
@@ -575,7 +602,7 @@ implements LoginPageContract{
 
   @override
   void onLoginError(String error) {
-    _showSnackBar("Login not successful");
+    _showSnackBar("تسجيل الدخول ليس صحيح، يرجى التأكد من المعلومات");
     setState(() {
       _isLoadingL = false;
     });
@@ -584,7 +611,7 @@ implements LoginPageContract{
   @override
   void onLoginSuccess(User user) {
     if(user.username == ""){
-      _showSnackBar("Login not successful");
+      _showSnackBar("تسجيل الدخول ليس صحيح، يرجى التأكد من المعلومات");
     }else{
       _showSnackBar(user.toString());
     }
@@ -593,10 +620,55 @@ implements LoginPageContract{
     });
     if(user.flaglogged == "logged"){
       print("Logged");
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => Home(nameController.text)));
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute<void>(builder: (_) => Home(nameController.text)),
+              (Route<dynamic> route) => false
+      );
     }else{
       print("Not Logged");
     }
+  }
+
+
+  _launchCaller(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+String num ='0956532841';
+  void showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("لا"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    Widget continueButton = TextButton(
+      onPressed: () =>
+          _launchCaller("tel:" + num),
+      child: Text(
+        'اتصل بنا',
+        style: GoogleFonts.lato(
+            fontSize: 16, color: Colors.blue),
+      ),
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("هل حقاً نسيت كلمة المرور؟"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }

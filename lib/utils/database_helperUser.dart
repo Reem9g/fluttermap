@@ -11,6 +11,7 @@ class DatabaseHelper {
 
   static Database _db;
   final String tableUser = "User";
+  final String columnId = "id";
   final String columnNumber = "number";
   final String columnUserName = "username";
   final String columnPassword = "password";
@@ -54,6 +55,16 @@ class DatabaseHelper {
     int res = await dbClient.delete("User");
     return res;
   }
+
+  // Future<int> deleteBooking(int id)async{
+  //   var dbClient = await db;
+  //   return await dbClient.delete(
+  //       tableBooking ,   where: '$columnId = ?',whereArgs: [id]
+  //   );
+  // }
+
+
+
   Future<User> selectUser(User user) async{
     print("Select User");
     print(user.username);
@@ -70,5 +81,17 @@ class DatabaseHelper {
     }else {
       return null;
     }
+  }
+
+  Future<List> getAllUsers() async{
+    var dbClient = await db;
+    var result = await dbClient.query(
+        tableUser ,
+        columns: [columnId,
+          columnNumber,columnUserName,
+          columnPassword
+        ]
+    );
+    return result.toList();
   }
 }

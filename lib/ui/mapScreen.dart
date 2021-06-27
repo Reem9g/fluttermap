@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:flutter_app_mab/ui/services.dart';
-import 'package:location/location.dart';
 
 //aya2
 
@@ -32,8 +30,7 @@ class map_map_State extends State<map> {
   }
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return  Scaffold(
         body: GoogleMap(
           mapType: MapType.normal,
           initialCameraPosition: CameraPosition(target: LatLng(36.20131681847512, 37.13172031346219), zoom: 15),
@@ -42,8 +39,8 @@ class map_map_State extends State<map> {
           },
           markers: Set.from(markers),
         ),
-      ),
-    );
+      )
+    ;
   }
 }
 class AppConstant {

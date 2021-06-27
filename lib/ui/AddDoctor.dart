@@ -13,6 +13,7 @@ class AddDoctors extends StatefulWidget {
 class AddDoctorsState extends State<AddDoctors> {
   DatabaseHelperDoctor db = new DatabaseHelperDoctor();
   TextEditingController _nameController;
+ // TextEditingController _specController;
   TextEditingController _addressController;
   TextEditingController _fromController;
   TextEditingController _toController;
@@ -25,6 +26,7 @@ class AddDoctorsState extends State<AddDoctors> {
     super.initState();
 
     _nameController = new TextEditingController(text: widget.doctor.name);
+   // _specController = new TextEditingController(text: widget.doctor.spec);
     _addressController = new TextEditingController(text: widget.doctor.address);
     _fromController = new TextEditingController(text: widget.doctor.from);
     _toController = new TextEditingController(text: widget.doctor.to);
@@ -68,6 +70,31 @@ class AddDoctorsState extends State<AddDoctors> {
                           ),
                         ),
                       ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(right: 5.0, top: 20, left: 5.0),
+                      //   child: Container(
+                      //     padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                      //     width: size.width * 0.8,
+                      //     decoration: BoxDecoration(
+                      //       borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                      //       color: Color(0xff4d36ad).withAlpha(50),
+                      //     ),
+                      //     child: TextField(
+                      //       textInputAction: TextInputAction.next,
+                      //       controller: _specController,
+                      //       textAlign: TextAlign.right,
+                      //       cursorColor: Color(0xff4d36ad),
+                      //       decoration: InputDecoration(
+                      //         icon: Icon(Icons.home, color: Color(0xff4d36ad)),
+                      //         hintText: 'اختصاص الطبيب',
+                      //         hintStyle: TextStyle(
+                      //           color: Color(0xff4d36ad),
+                      //         ),
+                      //         border: InputBorder.none,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       Padding(
                         padding:
                         const EdgeInsets.only(right: 10.0, top: 20, left: 10.0),
@@ -208,7 +235,7 @@ class AddDoctorsState extends State<AddDoctors> {
                       GestureDetector(
                           child: Padding(
                             padding:
-                            const EdgeInsets.only(left: 100, right: 100, top: 20),
+                            const EdgeInsets.only(left: 100, right: 100, top: 20,bottom: 20),
                             child: Container(
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
@@ -242,6 +269,7 @@ class AddDoctorsState extends State<AddDoctors> {
                                 'to': _toController.text,
                                 'phone': _phoneController.text,
                                 'about': _about.text,
+                              //  'spec': _specController.text,
                               }))
                                   .then((_) {
                                 Navigator.pop(context, 'update');
@@ -253,7 +281,8 @@ class AddDoctorsState extends State<AddDoctors> {
                                   _fromController.text,
                                   _toController.text,
                                   _phoneController.text,
-                                _about.text
+                                _about.text,
+                              //  _specController.text,
                               ))
                                   .then(
                                     (_) {

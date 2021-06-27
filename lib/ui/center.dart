@@ -1,8 +1,7 @@
-import 'package:convex_bottom_bar/convex_bottom_bar.dart';
+import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mab/model/user.dart';
-import 'package:flutter_app_mab/ui/searchList.dart';
 import 'package:flutter_app_mab/utils/databasee_helper_center.dart';
 import 'package:flutter_app_mab/model/center.dart';
 import 'doctor.dart';
@@ -26,7 +25,7 @@ class centerCards_state extends State<centerCards> {
   centerCards_state(this.UserName);
   List<Centerr> items = List();
   DatabaseHelperCenter db = new DatabaseHelperCenter();
-
+  int _currentIndex = 0;
   User user;
   bool _isvisible = false;
   @override
@@ -40,6 +39,13 @@ class centerCards_state extends State<centerCards> {
       });
     });
   }
+
+  int _selectedIndex = 0;
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,16 +56,48 @@ class centerCards_state extends State<centerCards> {
         elevation: 0,
         title: Container(
           padding: EdgeInsets.only(top: 5),
-          child:
-         Column(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
                 padding: EdgeInsets.fromLTRB(10, 20, 10, 25),
                 child: TextFormField(
-                  cursorColor: Color(0xff4d36ad),
+                  // onFieldSubmitted: (String value) {
+                  //
+                  //   setState(
+                  //         () {
+                  //       value.length == 0
+                  //           ? Container()
+                  //           : Navigator.push(
+                  //         context,
+                  //         MaterialPageRoute(
+                  //           builder: (context) => SearchList(
+                  //             searchKey: value,
+                  //           ),
+                  //         ),
+                  //       );
+                  //     },
+                  //   );
+                  // },
+                  onChanged: (String text) async {
+
+                    // List<Map> res = await database.rawQuery(
+                    //     "SELECT name FROM DoctorTable WHERE name LIKE '%${text}%' ");
+                    // print(res);
+
+                    //Database db = await DatabaseHelper.instance.database;
+                    // List<Map> result = await db.rawQuery("SELECT content FROM table WHERE content LIKE '%${text}%'");
+
+                    // setState(() {
+                    //   result.forEach((element) {
+                    //     print(element);
+                    //     course = result;
+                    //   });
+                    //
+                    // });
+                  },
+                  cursorColor: Colors.blue[900].withOpacity(0.9),
                   textInputAction: TextInputAction.search,
-                  // controller: _doctorName,
                   decoration: InputDecoration(
                     contentPadding:
                     EdgeInsets.only(left: 20, top: 10, bottom: 10),
@@ -68,18 +106,19 @@ class centerCards_state extends State<centerCards> {
                       borderSide: BorderSide.none,
                     ),
                     filled: true,
-                    fillColor: Color(0xffd7d6e6),
+                    fillColor: Colors.blue[100],
+                    //Color(0xffC3D9F1),
                     hintText: 'بحث',
                     hintStyle: GoogleFonts.lato(
-                      color: Color(0xff453097).withAlpha(50),
+                      color: Colors.blue[900].withOpacity(0.9),
                       fontSize: 18,
                       fontWeight: FontWeight.w800,
                     ),
                     suffixIcon: Container(
                       decoration: BoxDecoration(
-                        color: //Colors.blue[900].withOpacity(0.9),
-                        Color(0xff6D6298),
-                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.blue[900].withOpacity(0.9),
+                        //  Color(0xff6D6298),
+                        borderRadius: BorderRadius.circular(15.0),
                       ),
                       child: IconButton(
                         iconSize: 20,
@@ -94,22 +133,6 @@ class centerCards_state extends State<centerCards> {
                     fontSize: 18,
                     fontWeight: FontWeight.w800,
                   ),
-                   onFieldSubmitted: (String value) {
-                setState(
-                      () {
-                    value.length == 0
-                        ? Container()
-                        : Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SearchList(
-                          searchKey: value,
-                        ),
-                      ),
-                    );
-                  },
-                );
-              },
                 ),
               ),
             ],
@@ -127,9 +150,8 @@ class centerCards_state extends State<centerCards> {
                   itemBuilder: (context, position) {
                     return Stack(
                       children: <Widget>[
-                        GestureDetector(
-                          child: Container(
-                            height: 80,
+                        Container(
+                            height: 110,
                             width: 400,
                             child: Row(
                               children: <Widget>[
@@ -149,19 +171,29 @@ class centerCards_state extends State<centerCards> {
                                       ),
                                     ),
                                     Row(
-                                      children: <Widget>[
-                                        Text('${items[position].to}'),
-                                        Text(' :الانتهاء',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold)),
+                                        children: <Widget>[
+                                          Text('${items[position].to}'),
+                                          Text(' :الانتهاء',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold)),
 
-                                      ],
-                                    ),
+                                        ],
+                                      ),
+                                    TextButton(onPressed: (){
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  D_details(UserName)));
+                                    },
+                                        child: Text('لمعرفة الأقسام في المركز',textAlign: TextAlign.center,style: TextStyle(
+                                            fontWeight: FontWeight.bold
+                                        ),))
                                   ],
                                 ),
                                 Expanded(
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left:8.0,right: 8,bottom:8,top:8),
+                                    padding: const EdgeInsets.only(left:8.0,right: 8,bottom:4,top:4),
                                     child: ListTile(
                                         title: Text(
                                           '${items[position].name}',
@@ -185,6 +217,7 @@ class centerCards_state extends State<centerCards> {
                                         )),
                                   ),
                                 ),
+
                               ],
                             ),
                             margin:
@@ -195,14 +228,6 @@ class centerCards_state extends State<centerCards> {
                                 color: Color(0xffd7d6e6)
                             ),
                           ),
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        D_details(UserName)));
-                          },
-                        ),
                         Visibility(
                           visible : UserName == 'admin' ? !_isvisible: _isvisible,
                           child: Padding(
@@ -249,31 +274,99 @@ class centerCards_state extends State<centerCards> {
           backgroundColor: Color(0xff6D6298),
         ),
       ),
-        bottomNavigationBar: ConvexAppBar(
-            backgroundColor: Color(0xff6D6298),
-            //  color: Color(0xff6D6298),
-            style: TabStyle.react,
-            items: [
-              TabItem(icon: Icons.stay_current_portrait),
-              TabItem(icon: Icons.location_pin),
-              TabItem(icon: Icons.home_outlined,),
-              TabItem(icon: Icons.login_outlined),
-            ],
-            initialActiveIndex: 0,
-            onTap: (int i) {
-              if(i==1)
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => map()));
-              else if(i==2)
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Home(UserName)));
-              else if(i==3)
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()));
-            }
-        )
+       bottomNavigationBar:
+       // GNav(
+       //   curve: Curves.easeOutExpo,
+       //   rippleColor: Colors.grey[300],
+       //   hoverColor: Colors.grey[100],
+       //   haptic: true,
+       //   tabBorderRadius: 20,
+       //   gap: 5,
+       //   activeColor: Colors.white,
+       //   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+       //   duration: Duration(milliseconds: 400),
+       //   tabBackgroundColor: Colors.blue.withOpacity(0.7),
+       //   textStyle: GoogleFonts.lato(
+       //     color: Colors.white,
+       //   ),
+       //   tabs: [
+       //     GButton(
+       //       iconSize: _selectedIndex != 0 ? 28 : 25,
+       //       icon: _selectedIndex == 0
+       //           ? FlutterIcons.home_fou
+       //           : FlutterIcons.home_variant_outline_mco,
+       //       text: 'Home',
+       //     ),
+       //     GButton(
+       //       icon: FlutterIcons.search1_ant,
+       //       text: 'Search',
+       //     ),
+       //     GButton(
+       //       iconSize: 25,
+       //       icon: _selectedIndex == 2
+       //           ? Typicons.calendar
+       //           : Typicons.calendar_outline,
+       //       text: 'Schedule',
+       //     ),
+       //     GButton(
+       //       iconSize: 25,
+       //       icon: _selectedIndex == 3
+       //           ? Typicons.user
+       //           : Typicons.user_outline,
+       //       text: 'Profile',
+       //     ),
+       //   ],
+       //   selectedIndex: _selectedIndex,
+       //   onTabChange: _onItemTapped,
+       // ),
+      BottomNavyBar(
+        selectedIndex: _currentIndex,
+        showElevation: true,
+        itemCornerRadius: 15,
+        curve: Curves.easeIn,
+        onItemSelected: (index) {
+          setState(() => _currentIndex = index);
+          if(_currentIndex == 1)
+            Navigator.push(context, MaterialPageRoute(builder: (context) => map()));
+          else if (_currentIndex == 2)
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => Home(UserName)));
+          else if (_currentIndex == 3)
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => LoginScreen()));
+        },
+        items: <BottomNavyBarItem>[
+          BottomNavyBarItem(
+            icon: Icon(Icons.stay_current_portrait),
+            title: Text('الصفحة الحالية'),
+            activeColor: Colors.blue,
+            textAlign: TextAlign.center,
+          ),
+          BottomNavyBarItem(
+            icon: Icon(Icons.location_pin),
+            title: Text('الخريطة'),
+            activeColor: Colors.blue.withOpacity(0.7),
+            textAlign: TextAlign.center,
+          ),
+          BottomNavyBarItem(
+            icon: Icon(Icons.home_outlined,),
+            title: Text(
+              'الصفحة الرئيسية',
+            ),
+            activeColor: Colors.blue,
+            textAlign: TextAlign.center,
+          ),
+          BottomNavyBarItem(
+            icon: Icon(Icons.login_outlined),
+            title: Text(''),
+            activeColor: Colors.blue,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
     );
   }
+
   _deleteCenter(
       BuildContext context, Centerr center, int position) async {
     db.deleteCenter(center.id).then((centers) {

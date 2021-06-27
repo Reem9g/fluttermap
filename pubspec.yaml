@@ -39,6 +39,10 @@ dependencies:
   typicons_flutter: ^0.4.2
   convex_bottom_bar: ^2.7.1+2
   introduction_screen: ^1.0.9
+  bottom_navy_bar: ^5.6.0
+  spincircle_bottom_bar: ^1.0.0
+
+
 
 
 
@@ -103,6 +107,8 @@ flutter:
     - assets/Image/disease.png
     - assets/Image/doc.png
     - assets/Image/error-404.jpg
+    - assets/Image/appointment.jpg
+    - assets/Image/ppharmacy.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

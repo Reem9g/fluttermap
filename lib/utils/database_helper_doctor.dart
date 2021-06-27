@@ -13,6 +13,7 @@ class DatabaseHelperDoctor{
   final String columnTo = 'to';
   final String columnPhone= 'phone';
   final String columnAbout= 'about';
+
   //final String columnLat = 'lat';
   //final String columnLng = 'lng';
 
@@ -72,7 +73,8 @@ class DatabaseHelperDoctor{
   Future<int> getCount() async{
     var dbClient = await db;
 
-    return Sqflite.firstIntValue(await dbClient.rawQuery('SELECT COUNT(*) FROM $tableDoctor'));
+    return Sqflite.firstIntValue(await dbClient.rawQuery(
+        'SELECT COUNT(*) FROM $tableDoctor'));
   }
 
 // select aspecific Laboratory

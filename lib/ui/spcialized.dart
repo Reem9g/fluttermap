@@ -1,10 +1,9 @@
-import 'package:convex_bottom_bar/convex_bottom_bar.dart';
+import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mab/model/doctor.dart';
 import 'package:flutter_app_mab/model/user.dart';
 import 'package:flutter_app_mab/ui/AddDoctor.dart';
-import 'package:flutter_app_mab/ui/searchList.dart';
 import 'package:flutter_app_mab/utils/database_helper_doctor.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'detailDoctor.dart';
@@ -15,27 +14,27 @@ import 'mapScreen.dart';
 class Spc_Doctors extends StatefulWidget {
   String UserName;
   String Spec;
-  Spc_Doctors(this.Spec,this.UserName);
+  Spc_Doctors(this.Spec, this.UserName);
   @override
   State<StatefulWidget> createState() {
-    return stateSpc_Doctors(this.Spec,this.UserName);
+    return stateSpc_Doctors(this.Spec, this.UserName);
   }
 }
 
 class stateSpc_Doctors extends State<Spc_Doctors> {
-
-  String Spec,UserName;
-  stateSpc_Doctors(this.Spec,this.UserName);
+  String Spec, UserName;
+  stateSpc_Doctors(this.Spec, this.UserName);
   List<Doctor> items = List();
   DatabaseHelperDoctor db = new DatabaseHelperDoctor();
   User user;
   bool _isvisible = false;
+  int _currentIndex = 0;
   @override
   void initState() {
     super.initState();
-    db.getAllDoctors().then((doctors){
+    db.getAllDoctors().then((doctors) {
       setState(() {
-        doctors.forEach((doctor){
+        doctors.forEach((doctor) {
           items.add(Doctor.fromMap(doctor));
         });
       });
@@ -52,36 +51,68 @@ class stateSpc_Doctors extends State<Spc_Doctors> {
         elevation: 0,
         title: Container(
           padding: EdgeInsets.only(top: 5),
-          child:
-          Column(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
                 padding: EdgeInsets.fromLTRB(10, 20, 10, 25),
                 child: TextFormField(
-                  cursorColor: Color(0xff4d36ad),
+                  // onFieldSubmitted: (String value) {
+                  //
+                  //   setState(
+                  //         () {
+                  //       value.length == 0
+                  //           ? Container()
+                  //           : Navigator.push(
+                  //         context,
+                  //         MaterialPageRoute(
+                  //           builder: (context) => SearchList(
+                  //             searchKey: value,
+                  //           ),
+                  //         ),
+                  //       );
+                  //     },
+                  //   );
+                  // },
+                  onChanged: (String text) async {
+                    // List<Map> res = await database.rawQuery(
+                    //     "SELECT name FROM DoctorTable WHERE name LIKE '%${text}%' ");
+                    // print(res);
+
+                    //Database db = await DatabaseHelper.instance.database;
+                    // List<Map> result = await db.rawQuery("SELECT content FROM table WHERE content LIKE '%${text}%'");
+
+                    // setState(() {
+                    //   result.forEach((element) {
+                    //     print(element);
+                    //     course = result;
+                    //   });
+                    //
+                    // });
+                  },
+                  cursorColor: Colors.blue[900].withOpacity(0.9),
                   textInputAction: TextInputAction.search,
-                  // controller: _doctorName,
                   decoration: InputDecoration(
                     contentPadding:
-                    EdgeInsets.only(left: 20, top: 10, bottom: 10),
+                        EdgeInsets.only(left: 20, top: 10, bottom: 10),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15.0)),
                       borderSide: BorderSide.none,
                     ),
                     filled: true,
-                    fillColor: Color(0xffd7d6e6),
+                    fillColor: Colors.blue[100],
+                    //Color(0xffC3D9F1),
                     hintText: 'بحث',
                     hintStyle: GoogleFonts.lato(
-                      color: Color(0xff453097).withAlpha(50),
+                      color: Colors.blue[900].withOpacity(0.9),
                       fontSize: 18,
                       fontWeight: FontWeight.w800,
                     ),
                     suffixIcon: Container(
                       decoration: BoxDecoration(
-                        color: //Colors.blue[900].withOpacity(0.9),
-                        Color(0xff6D6298),
-                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.blue[900].withOpacity(0.9),
+                        //  Color(0xff6D6298),
+                        borderRadius: BorderRadius.circular(15.0),
                       ),
                       child: IconButton(
                         iconSize: 20,
@@ -96,22 +127,6 @@ class stateSpc_Doctors extends State<Spc_Doctors> {
                     fontSize: 18,
                     fontWeight: FontWeight.w800,
                   ),
-                   onFieldSubmitted: (String value) {
-                setState(
-                      () {
-                    value.length == 0
-                        ? Container()
-                        : Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SearchList(
-                          searchKey: value,
-                        ),
-                      ),
-                    );
-                  },
-                );
-              },
                 ),
               ),
             ],
@@ -122,95 +137,135 @@ class stateSpc_Doctors extends State<Spc_Doctors> {
       backgroundColor: Colors.white,
       body: Column(children: [
         Expanded(
-         // height: MediaQuery.of(context).size.height - 100,
+          // height: MediaQuery.of(context).size.height - 100,
           child: ListView.builder(
               physics: ClampingScrollPhysics(),
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
               itemCount: items.length,
               itemBuilder: (BuildContext context, int index) {
-                return Stack(
+                return //items[index].spec == Spec ?
+                Stack(
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(left: 50.0, right: 15.0, bottom: 8.0,top:15),
-                      child: Container(
-                        height: 80,
-                        width: 250,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: Color(0xff6D6298).withAlpha(150)
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            ListTile(
-                              title: new Text(
-                                '${items[index].name}',
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xffffffff),
+                      padding: EdgeInsets.all(10),
+                      child: Card(
+                        elevation: 2,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => TaskScreen(
+                                        items[index].name,
+                                        '$Spec',
+                                      //  items[index].spec,
+                                        items[index].about,
+                                        items[index].from,
+                                        items[index].to,
+                                        items[index].phone,
+                                        UserName,
+                                        items[index].address)));
+                          },
+                          child: ExpansionTile(
+                            title: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 5),
+                                  child: Text(
+                                    '${items[index].name}',
+                                    textAlign: TextAlign.right,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      //    color: Color(0xffffffff),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              subtitle: new Text('$Spec',
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                  color: Color(0xffffffff),
+                                SizedBox(
+                                  width: 0,
                                 ),
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            TaskScreen(items[index].name, '$Spec',
-                                                items[index].about,
-                                                items[index].from,
-                                                items[index].to,
-                                              items[index].phone,
-                                                UserName,
-                                              items[index].address
-                                            )));
-                              },
+                              ],
                             ),
-                          ],
+                            subtitle: Padding(
+                              padding: const EdgeInsets.only(left: 5),
+                              child: Text(
+                                //'${items[index].spec}',
+                                '$Spec',
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                    //  color: Color(0xffffffff),
+                                    ),
+                              ),
+                            ),
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    bottom: 20, right: 20),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          'رقم الطبيب: ${items[index].phone}',
+                                          style: GoogleFonts.lato(
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          'الدوام: ${items[index].from} - ${items[index].to}',
+                                          style: GoogleFonts.lato(
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                     Visibility(
-                      visible : UserName == 'admin' ? !_isvisible: _isvisible,
+                      visible: UserName == 'admin' ? !_isvisible : _isvisible,
                       child: Padding(
-                        padding: const EdgeInsets.only(right:285,top:3),
+                        padding: const EdgeInsets.only(
+                          right: 285,
+                        ),
                         child: Column(
                           children: [
                             IconButton(
-                              icon: Icon(
-                                  Icons.edit,
-                                  color: Color(0xff6D6298)
-                              ),
-                              onPressed: () => _navigateToDoctor(
-                                  context, items[index]),
+                              icon: Icon(Icons.edit, color: Color(0xff6D6298)),
+                              onPressed: () =>
+                                  _navigateToDoctor(context, items[index]),
                             ),
                             IconButton(
                                 icon: Icon(
                                   Icons.delete,
                                   color: Color(0xff6D6298),
                                 ),
-                                onPressed: () => _deleteDoctor(
-                                    context,
-                                    items[index],
-                                    index))
+                                onPressed: () =>
+                                    _deleteDoctor(context, items[index], index))
                           ],
                         ),
                       ),
                     )
                   ],
                 );
+               // : Center(child: Text('لايوجد أطباء في هذا الاختصاص'),);
               }),
         ),
       ]),
       floatingActionButton: Visibility(
-        visible : UserName == 'admin' ? !_isvisible: _isvisible,
+        visible: UserName == 'admin' ? !_isvisible : _isvisible,
         child: FloatingActionButton(
           child: Icon(
             Icons.add,
@@ -222,35 +277,58 @@ class stateSpc_Doctors extends State<Spc_Doctors> {
           backgroundColor: Color(0xff6D6298),
         ),
       ),
-        bottomNavigationBar: ConvexAppBar(
-            backgroundColor: Color(0xff6D6298),
-            //  color: Color(0xff6D6298),
-            style: TabStyle.react,
-            items: [
-              TabItem(icon: Icons.stay_current_portrait),
-              TabItem(icon: Icons.location_pin),
-              TabItem(icon: Icons.home_outlined,),
-              TabItem(icon: Icons.login_outlined),
-            ],
-            initialActiveIndex: 0,
-            onTap: (int i) {
-              if(i==1)
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => map()));
-              else if(i==2)
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Home(UserName)));
-              else if(i==3)
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()));
-            }
-        )
+      bottomNavigationBar: BottomNavyBar(
+        selectedIndex: _currentIndex,
+        showElevation: true,
+        itemCornerRadius: 15,
+        curve: Curves.easeIn,
+        onItemSelected: (index) {
+          setState(() => _currentIndex = index);
+          if (_currentIndex == 1)
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => map()));
+          else if (_currentIndex == 2)
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => Home(UserName)));
+          else if (_currentIndex == 3)
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => LoginScreen()));
+        },
+        items: <BottomNavyBarItem>[
+          BottomNavyBarItem(
+            icon: Icon(Icons.stay_current_portrait),
+            title: Text('الصفحة الحالية'),
+            activeColor: Colors.blue,
+            textAlign: TextAlign.center,
+          ),
+          BottomNavyBarItem(
+            icon: Icon(Icons.location_pin),
+            title: Text('الخريطة'),
+            activeColor: Colors.blue.withOpacity(0.7),
+            textAlign: TextAlign.center,
+          ),
+          BottomNavyBarItem(
+            icon: Icon(
+              Icons.home_outlined,
+            ),
+            title: Text(
+              'الصفحة الرئيسية',
+            ),
+            activeColor: Colors.blue,
+            textAlign: TextAlign.center,
+          ),
+          BottomNavyBarItem(
+            icon: Icon(Icons.login_outlined),
+            title: Text(''),
+            activeColor: Colors.blue,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
     );
   }
 
-
-  _deleteDoctor(
-      BuildContext context, Doctor doctor, int position) async {
+  _deleteDoctor(BuildContext context, Doctor doctor, int position) async {
     db.deleteDoctor(doctor.id).then((doctors) {
       setState(() {
         items.removeAt(position);
@@ -280,7 +358,7 @@ class stateSpc_Doctors extends State<Spc_Doctors> {
     String result = await Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => AddDoctors(Doctor('', '', '', '', '',''))),
+          builder: (context) => AddDoctors(Doctor('', '', '', '', '', '',))),
     );
 
     if (result == 'save') {

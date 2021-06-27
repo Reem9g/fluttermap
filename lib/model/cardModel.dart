@@ -18,5 +18,4 @@ List<CardModel> cards = [
   new CardModel("جلدية", 0xFFec407a, FlutterIcons.skip_next_mdi),
   new CardModel("نسائية", 0xFF5c6bc0, FlutterIcons.pregnant_woman_mdi),
   new CardModel("اذنية", 0xFFfbc02d, FlutterIcons.hearing_aid_fou),
-
 ];

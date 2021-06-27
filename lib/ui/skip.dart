@@ -99,8 +99,9 @@ class _SkipState extends State<Skip> {
   }
 
   void _pushPage(BuildContext context, Widget page) {
-    Navigator.of(context).push(
+    Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute<void>(builder: (_) => page),
+        (Route<dynamic> route) => false
     );
   }
 }

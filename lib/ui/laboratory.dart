@@ -1,9 +1,8 @@
-import 'package:convex_bottom_bar/convex_bottom_bar.dart';
+import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter_app_mab/model/laboratory.dart';
 import 'package:flutter_app_mab/model/user.dart';
 import 'package:flutter_app_mab/ui/AddLab.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_mab/ui/searchList.dart';
 import 'package:flutter_app_mab/utils/database_helper.dart';
 import 'home_page.dart';
 import 'logIn.dart';
@@ -26,6 +25,7 @@ class laboratory_laboratoryState extends State<laboratory> {
   DatabaseHelper db = new DatabaseHelper();
   User user;
   bool _isvisible = false;
+  int _currentIndex = 0;
   @override
   void initState() {
     super.initState();
@@ -54,29 +54,63 @@ class laboratory_laboratoryState extends State<laboratory> {
               Container(
                 padding: EdgeInsets.fromLTRB(10, 20, 10, 25),
                 child: TextFormField(
-                  cursorColor: Color(0xff4d36ad),
+                  // onFieldSubmitted: (String value) {
+                  //
+                  //   setState(
+                  //         () {
+                  //       value.length == 0
+                  //           ? Container()
+                  //           : Navigator.push(
+                  //         context,
+                  //         MaterialPageRoute(
+                  //           builder: (context) => SearchList(
+                  //             searchKey: value,
+                  //           ),
+                  //         ),
+                  //       );
+                  //     },
+                  //   );
+                  // },
+                  onChanged: (String text) async {
+
+                    // List<Map> res = await database.rawQuery(
+                    //     "SELECT name FROM DoctorTable WHERE name LIKE '%${text}%' ");
+                    // print(res);
+
+                    //Database db = await DatabaseHelper.instance.database;
+                    // List<Map> result = await db.rawQuery("SELECT content FROM table WHERE content LIKE '%${text}%'");
+
+                    // setState(() {
+                    //   result.forEach((element) {
+                    //     print(element);
+                    //     course = result;
+                    //   });
+                    //
+                    // });
+                  },
+                  cursorColor: Colors.blue[900].withOpacity(0.9),
                   textInputAction: TextInputAction.search,
-                  // controller: _doctorName,
                   decoration: InputDecoration(
                     contentPadding:
-                        EdgeInsets.only(left: 20, top: 10, bottom: 10),
+                    EdgeInsets.only(left: 20, top: 10, bottom: 10),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15.0)),
                       borderSide: BorderSide.none,
                     ),
                     filled: true,
-                    fillColor: Color(0xffd7d6e6),
+                    fillColor: Colors.blue[100],
+                    //Color(0xffC3D9F1),
                     hintText: 'بحث',
                     hintStyle: GoogleFonts.lato(
-                      color: Color(0xff453097).withAlpha(50),
+                      color: Colors.blue[900].withOpacity(0.9),
                       fontSize: 18,
                       fontWeight: FontWeight.w800,
                     ),
                     suffixIcon: Container(
                       decoration: BoxDecoration(
-                        color: //Colors.blue[900].withOpacity(0.9),
-                            Color(0xff6D6298),
-                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.blue[900].withOpacity(0.9),
+                        //  Color(0xff6D6298),
+                        borderRadius: BorderRadius.circular(15.0),
                       ),
                       child: IconButton(
                         iconSize: 20,
@@ -91,22 +125,6 @@ class laboratory_laboratoryState extends State<laboratory> {
                     fontSize: 18,
                     fontWeight: FontWeight.w800,
                   ),
-                   onFieldSubmitted: (String value) {
-                setState(
-                      () {
-                    value.length == 0
-                        ? Container()
-                        : Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SearchList(
-                          searchKey: value,
-                        ),
-                      ),
-                    );
-                  },
-                );
-              },
                 ),
               ),
             ],
@@ -130,7 +148,7 @@ class laboratory_laboratoryState extends State<laboratory> {
                             Image.asset('assets/Image/blood.ico'),
                           ],
                         ),
-                        margin: EdgeInsets.only(top: 10, right: 30, left: 30),
+                        margin: EdgeInsets.only(top: 30, right: 30, left: 30),
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
@@ -199,7 +217,7 @@ class laboratory_laboratoryState extends State<laboratory> {
                             ),
                           ],
                         ),
-                        margin: EdgeInsets.only(top: 20, right: 30, left: 30),
+                        margin: EdgeInsets.only(top: 40, right: 30, left: 30),
                         padding: EdgeInsets.all(1),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
@@ -247,29 +265,51 @@ class laboratory_laboratoryState extends State<laboratory> {
           backgroundColor: Color(0xff6D6298),
         ),
       ),
-        bottomNavigationBar: ConvexAppBar(
-            backgroundColor: Color(0xff6D6298),
-            //  color: Color(0xff6D6298),
-            style: TabStyle.react,
-            items: [
-              TabItem(icon: Icons.stay_current_portrait),
-              TabItem(icon: Icons.location_pin),
-              TabItem(icon: Icons.home_outlined,),
-              TabItem(icon: Icons.login_outlined),
-            ],
-            initialActiveIndex: 0,
-            onTap: (int i) {
-              if(i==1)
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => map()));
-              else if(i==2)
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Home(UserName)));
-              else if(i==3)
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()));
-            }
-        )
+      bottomNavigationBar:   BottomNavyBar(
+        selectedIndex: _currentIndex,
+        showElevation: true,
+        itemCornerRadius: 15,
+        curve: Curves.easeIn,
+        onItemSelected: (index) {
+          setState(() => _currentIndex = index);
+          if(_currentIndex == 1)
+            Navigator.push(context, MaterialPageRoute(builder: (context) => map()));
+          else if (_currentIndex == 2)
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => Home(UserName)));
+          else if (_currentIndex == 3)
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => LoginScreen()));
+        },
+        items: <BottomNavyBarItem>[
+          BottomNavyBarItem(
+            icon: Icon(Icons.stay_current_portrait),
+            title: Text('الصفحة الحالية'),
+            activeColor: Colors.blue,
+            textAlign: TextAlign.center,
+          ),
+          BottomNavyBarItem(
+            icon: Icon(Icons.location_pin),
+            title: Text('الخريطة'),
+            activeColor: Colors.blue.withOpacity(0.7),
+            textAlign: TextAlign.center,
+          ),
+          BottomNavyBarItem(
+            icon: Icon(Icons.home_outlined,),
+            title: Text(
+              'الصفحة الرئيسية',
+            ),
+            activeColor: Colors.blue,
+            textAlign: TextAlign.center,
+          ),
+          BottomNavyBarItem(
+            icon: Icon(Icons.login_outlined),
+            title: Text(''),
+            activeColor: Colors.blue,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
     );
   }
 

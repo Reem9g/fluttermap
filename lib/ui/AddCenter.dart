@@ -36,8 +36,7 @@ class AddCentersState extends State<AddCenters> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Center(
+      body:  Center(
               child: SingleChildScrollView(
                   child: Column(
                 children: [
@@ -232,7 +231,7 @@ class AddCentersState extends State<AddCenters> {
                 ]
               )),
             )
-      ),
+
     );
   }
 }

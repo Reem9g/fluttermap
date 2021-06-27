@@ -1,8 +1,10 @@
-import 'package:convex_bottom_bar/convex_bottom_bar.dart';
+import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'Booking.dart';
+import 'bookingScreen.dart';
 import 'home_page.dart';
 import 'logIn.dart';
 import 'mapScreen.dart';
@@ -29,11 +31,12 @@ class StateTaskScreen extends State<TaskScreen> {
   String Name, Spec, About, From, To, Phone,UserName,Address;
   StateTaskScreen(
       this.Name, this.Spec, this.About, this.From, this.To, this.Phone,this.UserName,this.Address);
+  int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffffffff),
-      body: Column(
+      body: ListView(
         children: [
           Container(
             alignment: Alignment.centerLeft,
@@ -64,8 +67,12 @@ class StateTaskScreen extends State<TaskScreen> {
             )
         ),
       ),
+          SizedBox(
+            height: 10,
+          ),
           Text(
             '$Name',
+            textAlign: TextAlign.center,
             style: GoogleFonts.lato(
               fontWeight: FontWeight.bold,
               fontSize: 24,
@@ -76,6 +83,7 @@ class StateTaskScreen extends State<TaskScreen> {
           ),
           Text(
               '$Spec ',
+            textAlign: TextAlign.center,
             style: GoogleFonts.lato(
               //fontWeight: FontWeight.bold,
                 fontSize: 18,
@@ -200,6 +208,72 @@ class StateTaskScreen extends State<TaskScreen> {
                 ),
               ],
             ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+            height: MediaQuery.of(context).size.height / 12,
+            margin: EdgeInsets.symmetric(horizontal: 10),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 15,
+                ),
+                Icon(FlutterIcons.calendar_account_mco),
+                SizedBox(
+                  width: 11,
+                ),
+                TextButton(
+                  onPressed: () =>
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Booking(Name))),
+                  child: Text(
+                    'حجوزات الطبيب',
+                    style: GoogleFonts.lato(
+                        fontSize: 16, color: Colors.blue),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 30),
+            height: 50,
+            width: MediaQuery.of(context).size.width,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                elevation: 2,
+                primary: Colors.indigo.withOpacity(0.9),
+                onPrimary: Colors.black,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(32.0),
+                ),
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BookingScreen(
+                      doctor:  '$Name',
+                    ),
+                  ),
+                );
+              },
+              child: Text(
+                'لحجز موعد',
+                style: GoogleFonts.lato(
+                  color: Colors.white,
+                  fontSize: 23,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 30,
           ),
           // Container(
           //   height: 200,
@@ -356,29 +430,51 @@ class StateTaskScreen extends State<TaskScreen> {
           // ))
         ],
       ),
-        bottomNavigationBar: ConvexAppBar(
-            backgroundColor: Color(0xff6D6298),
-            //  color: Color(0xff6D6298),
-            style: TabStyle.react,
-            items: [
-              TabItem(icon: Icons.stay_current_portrait),
-              TabItem(icon: Icons.location_pin),
-              TabItem(icon: Icons.home_outlined,),
-              TabItem(icon: Icons.login_outlined),
-            ],
-            initialActiveIndex: 0,
-            onTap: (int i) {
-              if(i==1)
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => map()));
-              else if(i==2)
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Home(UserName)));
-              else if(i==3)
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()));
-            }
-        )
+      bottomNavigationBar:  BottomNavyBar(
+        selectedIndex: _currentIndex,
+        showElevation: true,
+        itemCornerRadius: 15,
+        curve: Curves.easeIn,
+        onItemSelected: (index) {
+          setState(() => _currentIndex = index);
+          if(_currentIndex == 1)
+            Navigator.push(context, MaterialPageRoute(builder: (context) => map()));
+          else if (_currentIndex == 2)
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => Home(UserName)));
+          else if (_currentIndex == 3)
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => LoginScreen()));
+        },
+        items: <BottomNavyBarItem>[
+          BottomNavyBarItem(
+            icon: Icon(Icons.stay_current_portrait),
+            title: Text('الصفحة الحالية'),
+            activeColor: Colors.blue,
+            textAlign: TextAlign.center,
+          ),
+          BottomNavyBarItem(
+            icon: Icon(Icons.location_pin),
+            title: Text('الخريطة'),
+            activeColor: Colors.blue.withOpacity(0.7),
+            textAlign: TextAlign.center,
+          ),
+          BottomNavyBarItem(
+            icon: Icon(Icons.home_outlined,),
+            title: Text(
+              'الصفحة الرئيسية',
+            ),
+            activeColor: Colors.blue,
+            textAlign: TextAlign.center,
+          ),
+          BottomNavyBarItem(
+            icon: Icon(Icons.login_outlined),
+            title: Text(''),
+            activeColor: Colors.blue,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
     );
   }
 }
