@@ -151,7 +151,7 @@ class pharmacy_pharmacyState extends State<pharmacy> {
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
-                          color: Color(0xff6D6298),
+                          color:  Colors.blue[900].withOpacity(0.9),
                         ),
                       ),
                       Container(
@@ -218,19 +218,19 @@ class pharmacy_pharmacyState extends State<pharmacy> {
                         padding: EdgeInsets.all(1),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: Color(0xffd7d6e6)
+                            color:  Colors.blue[100],
                         ),
                       ),
                       Visibility(
                         visible : UserName == 'admin' ? !_isvisible: _isvisible,
                         child: Padding(
-                          padding: const EdgeInsets.only(right:285),
+                          padding: const EdgeInsets.only(right:285,top:25),
                           child: Column(
                             children: [
                               IconButton(
                                 icon: Icon(
                                     Icons.edit,
-                                    color: Color(0xff6D6298)
+                                    color:  Colors.blue[900].withOpacity(0.9),
                                 ),
                                 onPressed: () => _navigateToPharmacy(
                                     context, items[position]),
@@ -238,7 +238,7 @@ class pharmacy_pharmacyState extends State<pharmacy> {
                               IconButton(
                                   icon: Icon(
                                     Icons.delete,
-                                    color: Color(0xff6D6298),
+                                    color:  Colors.blue[900].withOpacity(0.9),
                                   ),
                                   onPressed: () => _deletePharmacy(
                                       context,
@@ -264,7 +264,7 @@ class pharmacy_pharmacyState extends State<pharmacy> {
           onPressed: () {
             _createNewPharmacy(context);
           },
-          backgroundColor: Color(0xff6D6298),
+          backgroundColor:  Colors.blue[900].withOpacity(0.9),
         ),
       ),
       bottomNavigationBar:  BottomNavyBar(
@@ -277,11 +277,15 @@ class pharmacy_pharmacyState extends State<pharmacy> {
           if(_currentIndex == 1)
             Navigator.push(context, MaterialPageRoute(builder: (context) => map()));
           else if (_currentIndex == 2)
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => Home(UserName)));
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute<void>(builder: (_) => Home(UserName)),
+                    (Route<dynamic> route) => false
+            );
           else if (_currentIndex == 3)
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => LoginScreen()));
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute<void>(builder: (_) => LoginScreen()),
+                    (Route<dynamic> route) => false
+            );
         },
         items: <BottomNavyBarItem>[
           BottomNavyBarItem(

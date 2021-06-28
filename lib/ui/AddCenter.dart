@@ -13,7 +13,6 @@ class AddCenters extends StatefulWidget {
 
 class AddCentersState extends State<AddCenters> {
   DatabaseHelperCenter db = new DatabaseHelperCenter();
-
   TextEditingController _nameController;
   TextEditingController _addressController;
   TextEditingController _fromController;
@@ -30,10 +29,17 @@ class AddCentersState extends State<AddCenters> {
     _phoneController = new TextEditingController(text: widget.center.phone);
   }
 
+  final scaffoldKeyL = new GlobalKey<ScaffoldState>();
+  void _showSnackBar(String text) {
+    scaffoldKeyL.currentState.showSnackBar(new SnackBar(
+      content: new Text(text),
+    ));
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      key: scaffoldKeyL,
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body:  Center(
@@ -51,6 +57,7 @@ class AddCentersState extends State<AddCenters> {
                       ),
                       child: TextField(
                         textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.name,
                         controller: _nameController,
                         textAlign: TextAlign.right,
                         cursorColor: Color(0xff4d36ad),
@@ -132,6 +139,7 @@ class AddCentersState extends State<AddCenters> {
                       ),
                       child: TextField(
                         textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.datetime,
                         controller: _fromController,
                         textAlign: TextAlign.right,
                         cursorColor: Color(0xff4d36ad),
@@ -159,6 +167,7 @@ class AddCentersState extends State<AddCenters> {
                       ),
                       child: TextField(
                         textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.datetime,
                         controller: _toController,
                         textAlign: TextAlign.right,
                         cursorColor: Color(0xff4d36ad),
@@ -202,7 +211,9 @@ class AddCentersState extends State<AddCenters> {
                         ),
                       ),
                       onTap: () {
-                        if (widget.center.id != null) {
+                        if (widget.center.id != null && _nameController.text.isNotEmpty
+                            && _addressController.text.isNotEmpty && _phoneController.text.isNotEmpty
+                            && _fromController.text.isNotEmpty && _toController.text.isNotEmpty ) {
                           db.updateCenter(Centerr.fromMap({
                             'id': widget.center.id,
                             'name': _nameController.text,
@@ -214,7 +225,9 @@ class AddCentersState extends State<AddCenters> {
                               .then((_) {
                             Navigator.pop(context, 'update');
                           });
-                        } else {
+                        } else if( _nameController.text.isNotEmpty
+                        && _addressController.text.isNotEmpty && _phoneController.text.isNotEmpty
+                            && _fromController.text.isNotEmpty && _toController.text.isNotEmpty ){
                           db.saveCenter(Centerr(
                                   _nameController.text,
                                   _addressController.text,
@@ -226,6 +239,9 @@ class AddCentersState extends State<AddCenters> {
                               Navigator.pop(context, 'save');
                             },
                           );
+                        }
+                        else{
+                          _showSnackBar('يجب ملئ كافة المعلومات');
                         }
                       })
                 ]

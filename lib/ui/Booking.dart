@@ -43,79 +43,6 @@ class Booking_state extends State<Booking> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        actions: <Widget>[Container()],
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: Container(
-          padding: EdgeInsets.only(top: 5),
-          child:
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                padding: EdgeInsets.fromLTRB(10, 20, 10, 25),
-                child: TextFormField(
-                  cursorColor: Color(0xff4d36ad),
-                  textInputAction: TextInputAction.search,
-                  // controller: _doctorName,
-                  decoration: InputDecoration(
-                    contentPadding:
-                    EdgeInsets.only(left: 20, top: 10, bottom: 10),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                      borderSide: BorderSide.none,
-                    ),
-                    filled: true,
-                    fillColor: Color(0xffd7d6e6),
-                    hintText: 'بحث',
-                    hintStyle: GoogleFonts.lato(
-                      color: Color(0xff453097).withAlpha(50),
-                      fontSize: 18,
-                      fontWeight: FontWeight.w800,
-                    ),
-                    suffixIcon: Container(
-                      decoration: BoxDecoration(
-                        color: //Colors.blue[900].withOpacity(0.9),
-                        Color(0xff6D6298),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: IconButton(
-                        iconSize: 20,
-                        splashRadius: 20,
-                        color: Colors.white,
-                        icon: Icon(Icons.search),
-                        onPressed: () {},
-                      ),
-                    ),
-                  ),
-                  style: GoogleFonts.lato(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w800,
-                  ),
-                  onFieldSubmitted: (String value) {
-                    setState(
-                          () {
-                        value.length == 0
-                            ? Container()
-                            : Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SearchList(
-                              searchKey: value,
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
       backgroundColor: Colors.white,
       body: Column(
         children: [
@@ -125,7 +52,7 @@ class Booking_state extends State<Booking> {
                   physics: ClampingScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, position) {
-                    return Card(
+                    return items[position].nameDoctor == nameDoctor?Card(
                       elevation: 2,
                       child: InkWell(
                         onTap: () {},
@@ -235,7 +162,7 @@ class Booking_state extends State<Booking> {
                           ],
                         ),
                       ),
-                    );
+                    ) : Center();
                   })
           ),
         ],
@@ -250,11 +177,15 @@ class Booking_state extends State<Booking> {
           if(_currentIndex == 1)
             Navigator.push(context, MaterialPageRoute(builder: (context) => map()));
           else if (_currentIndex == 2)
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => Home(UserName)));
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute<void>(builder: (_) => Home(UserName)),
+                    (Route<dynamic> route) => false
+            );
           else if (_currentIndex == 3)
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => LoginScreen()));
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute<void>(builder: (_) => LoginScreen()),
+                    (Route<dynamic> route) => false
+            );
         },
         items: <BottomNavyBarItem>[
           BottomNavyBarItem(

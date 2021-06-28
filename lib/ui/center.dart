@@ -225,19 +225,19 @@ class centerCards_state extends State<centerCards> {
                             padding: EdgeInsets.all(1),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
-                                color: Color(0xffd7d6e6)
+                             color: Colors.blue[50],
                             ),
                           ),
                         Visibility(
                           visible : UserName == 'admin' ? !_isvisible: _isvisible,
                           child: Padding(
-                            padding: const EdgeInsets.only(right:285,top:3),
+                            padding: const EdgeInsets.only(right:285,top:20),
                             child: Column(
                               children: [
                                 IconButton(
                                   icon: Icon(
                                       Icons.edit,
-                                      color: Color(0xff6D6298)
+                                      color: Colors.blue[900].withOpacity(0.9),
                                   ),
                                   onPressed: () => _navigateToCenter(
                                       context, items[position]),
@@ -245,7 +245,7 @@ class centerCards_state extends State<centerCards> {
                                 IconButton(
                                     icon: Icon(
                                       Icons.delete,
-                                      color: Color(0xff6D6298),
+                                      color: Colors.blue[900].withOpacity(0.9),
                                     ),
                                     onPressed: () => _deleteCenter(
                                         context,
@@ -271,7 +271,7 @@ class centerCards_state extends State<centerCards> {
           onPressed: () {
             _createNewLabortoryCenter(context);
           },
-          backgroundColor: Color(0xff6D6298),
+          backgroundColor: Colors.blue[900].withOpacity(0.9),
         ),
       ),
        bottomNavigationBar:
@@ -329,11 +329,15 @@ class centerCards_state extends State<centerCards> {
           if(_currentIndex == 1)
             Navigator.push(context, MaterialPageRoute(builder: (context) => map()));
           else if (_currentIndex == 2)
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => Home(UserName)));
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute<void>(builder: (_) => Home(UserName)),
+                    (Route<dynamic> route) => false
+            );
           else if (_currentIndex == 3)
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => LoginScreen()));
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute<void>(builder: (_) => LoginScreen()),
+                    (Route<dynamic> route) => false
+            );
         },
         items: <BottomNavyBarItem>[
           BottomNavyBarItem(

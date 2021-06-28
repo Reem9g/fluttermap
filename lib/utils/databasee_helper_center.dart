@@ -42,7 +42,7 @@ class DatabaseHelperCenter{
   void _onCreate(Database db , int newVersion) async{
     var sql = 'CREATE TABLE $tableCenter ([$columnId] INTEGER PRIMARY KEY,'
         '[$columnName] TEXT , [$columnAddress] TEXT ,'
-        '[$columnFrom] TEXT ,[$columnTo] TEXT ,[$columnPhone] TEXT,)';
+        '[$columnFrom] TEXT ,[$columnTo] TEXT ,[$columnPhone] TEXT)';
     /*'$columnLat Double ,$columnLng Double, [$columnimg] TEXT'*/
     await db.execute(sql);
   }

@@ -13,6 +13,7 @@ class DatabaseHelperDoctor{
   final String columnTo = 'to';
   final String columnPhone= 'phone';
   final String columnAbout= 'about';
+  final String columnSpec= 'spec';
 
   //final String columnLat = 'lat';
   //final String columnLng = 'lng';
@@ -35,7 +36,7 @@ class DatabaseHelperDoctor{
   initDb()async {
     String databasePath = await getDatabasesPath();
     String path = join(databasePath , ' doctors.db');
-    var db = await openDatabase(path , version: 1 , onCreate: _onCreate);
+    var db = await openDatabase(path , version: 2 , onCreate: _onCreate);
     return db;
   }
 
@@ -43,7 +44,7 @@ class DatabaseHelperDoctor{
   void _onCreate(Database db , int newVersion) async{
     var sql = 'CREATE TABLE $tableDoctor ([$columnId] INTEGER PRIMARY KEY,'
         '[$columnName] TEXT , [$columnAddress] TEXT ,'
-        '[$columnFrom] TEXT ,[$columnTo] TEXT ,[$columnPhone] TEXT,[$columnAbout] TEXT)';
+        '[$columnFrom] TEXT ,[$columnTo] TEXT ,[$columnPhone] TEXT,[$columnAbout] TEXT,[$columnSpec] TEXT)';
     /*'$columnLat Double ,$columnLng Double'*/
     await db.execute(sql);
   }
@@ -63,7 +64,7 @@ class DatabaseHelperDoctor{
         columns: [columnId,
           columnName,columnAddress,
           columnFrom,columnTo,
-          columnPhone,columnAbout//columnLat,columnLng
+          columnPhone,columnAbout,columnSpec//columnLat,columnLng
         ]
     );
     return result.toList();
@@ -85,7 +86,7 @@ class DatabaseHelperDoctor{
         columns: [columnId,
           columnName,columnAddress,
           columnFrom,columnTo,
-          columnPhone,columnAbout/*columnLat,columnLng*/],where: '$columnId = ?',whereArgs: ['id']
+          columnPhone,columnAbout,columnSpec/*columnLat,columnLng*/],where: '$columnId = ?',whereArgs: ['id']
     );
 
     if(result.length > 0){

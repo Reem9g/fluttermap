@@ -29,7 +29,7 @@ class DatabaseHelperBooking{
   initDb()async {
     String databasePath = await getDatabasesPath();
     String path = join(databasePath , 'booking.db');
-    var db = await openDatabase(path , version: 1 , onCreate: _onCreate);
+    var db = await openDatabase(path , version: 2 , onCreate: _onCreate);
     return db;
   }
 

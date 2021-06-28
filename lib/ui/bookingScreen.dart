@@ -13,10 +13,14 @@ class BookingScreen extends StatefulWidget {
 
   const BookingScreen({Key key, this.doctor, this.booking}) : super(key: key);
   @override
-  _BookingScreenState createState() => _BookingScreenState();
+  _BookingScreenState createState() => _BookingScreenState(this.doctor);
 }
 
 class _BookingScreenState extends State<BookingScreen> {
+
+  String doctor;
+  _BookingScreenState(this.doctor);
+
   DatabaseHelperBooking db = new DatabaseHelperBooking();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -87,7 +91,7 @@ class _BookingScreenState extends State<BookingScreen> {
   void initState() {
     super.initState();
     selectTime(context);
-    _doctorController.text = widget.doctor;
+    _doctorController.text = doctor;
   }
 
   @override
@@ -260,6 +264,7 @@ class _BookingScreenState extends State<BookingScreen> {
                         height: 20,
                       ),
                       TextFormField(
+                        enabled: false,
                         textAlign: TextAlign.right,
                         cursorColor: Color(0xff4d36ad),
                         controller: _doctorController,
@@ -482,7 +487,7 @@ class _BookingScreenState extends State<BookingScreen> {
     ))
         .then(
           (_) {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => Booking(_doctorController.text)));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => Booking(doctor)));
       //  Navigator.pop(context, 'save');
       },
     );

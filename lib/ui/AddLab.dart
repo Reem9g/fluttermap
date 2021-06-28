@@ -29,12 +29,18 @@ class AddLabState extends State<AddLab> {
     _toController = new TextEditingController(text: widget.laboratory.to);
     _phoneController = new TextEditingController(text: widget.laboratory.phone);
   }
-
+  final scaffoldKeyL = new GlobalKey<ScaffoldState>();
+  void _showSnackBar(String text) {
+    scaffoldKeyL.currentState.showSnackBar(new SnackBar(
+      content: new Text(text),
+    ));
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
+      key: scaffoldKeyL,
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: Center(
@@ -52,6 +58,7 @@ class AddLabState extends State<AddLab> {
                             ),
                             child: TextField(
                               textInputAction: TextInputAction.next,
+                              keyboardType: TextInputType.name,
                               controller: _nameController,
                               textAlign: TextAlign.right,
                               cursorColor: Color(0xff4d36ad),
@@ -133,6 +140,7 @@ class AddLabState extends State<AddLab> {
                             ),
                             child: TextField(
                               textInputAction: TextInputAction.next,
+                              keyboardType: TextInputType.datetime,
                               controller: _fromController,
                               textAlign: TextAlign.right,
                               cursorColor: Color(0xff4d36ad),
@@ -160,6 +168,7 @@ class AddLabState extends State<AddLab> {
                             ),
                             child: TextField(
                               textInputAction: TextInputAction.next,
+                              keyboardType: TextInputType.datetime,
                               controller: _toController,
                               textAlign: TextAlign.right,
                               cursorColor: Color(0xff4d36ad),
@@ -203,7 +212,9 @@ class AddLabState extends State<AddLab> {
                               ),
                             ),
                             onTap: () {
-                              if (widget.laboratory.id != null) {
+                              if (widget.laboratory.id != null &&  _nameController.text.isNotEmpty
+                                  && _addressController.text.isNotEmpty && _phoneController.text.isNotEmpty
+                                  && _fromController.text.isNotEmpty && _toController.text.isNotEmpty) {
                                 db
                                     .updateLaboratory(Laboratory.fromMap({
                                   'id': widget.laboratory.id,
@@ -216,7 +227,10 @@ class AddLabState extends State<AddLab> {
                                     .then((_) {
                                   Navigator.pop(context, 'update');
                                 });
-                              } else {
+                              } else if( _nameController.text.isNotEmpty
+                                  && _addressController.text.isNotEmpty && _phoneController.text.isNotEmpty
+                                  && _fromController.text.isNotEmpty && _toController.text.isNotEmpty
+                                  ){
                                 db
                                     .saveLaboratory(Laboratory(
                                         _nameController.text,
@@ -229,6 +243,9 @@ class AddLabState extends State<AddLab> {
                                     Navigator.pop(context, 'save');
                                   },
                                 );
+                              }
+                              else{
+                                _showSnackBar('يجب ملئ كافة المعلومات');
                               }
                             })
                       ],

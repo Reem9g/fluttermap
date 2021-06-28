@@ -144,11 +144,12 @@ class stateSpc_Doctors extends State<Spc_Doctors> {
               scrollDirection: Axis.vertical,
               itemCount: items.length,
               itemBuilder: (BuildContext context, int index) {
-                return //items[index].spec == Spec ?
+                return
+                  items[index].spec == Spec ?
                 Stack(
                   children: [
                     Padding(
-                      padding: EdgeInsets.all(10),
+                      padding: EdgeInsets.only(left: 10,right: 10,top:15,bottom: 10),
                       child: Card(
                         elevation: 2,
                         child: InkWell(
@@ -182,9 +183,6 @@ class stateSpc_Doctors extends State<Spc_Doctors> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(
-                                  width: 0,
-                                ),
                               ],
                             ),
                             subtitle: Padding(
@@ -203,20 +201,22 @@ class stateSpc_Doctors extends State<Spc_Doctors> {
                                 padding: const EdgeInsets.only(
                                     bottom: 20, right: 20),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
+                                    //  crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          'رقم الطبيب: ${items[index].phone}',
-                                          style: GoogleFonts.lato(
-                                            fontSize: 16,
+                                        Padding(
+                                          padding: const EdgeInsets.only(right:27.0),
+                                          child: Text(
+                                            'رقم الطبيب: ${items[index].phone}',
+                                            style: GoogleFonts.lato(
+                                              fontSize: 16,
+                                            ),
                                           ),
                                         ),
                                         SizedBox(
-                                          height: 10,
+                                          height: 5,
                                         ),
                                         Text(
                                           'الدوام: ${items[index].from} - ${items[index].to}',
@@ -238,19 +238,20 @@ class stateSpc_Doctors extends State<Spc_Doctors> {
                       visible: UserName == 'admin' ? !_isvisible : _isvisible,
                       child: Padding(
                         padding: const EdgeInsets.only(
-                          right: 285,
+                         // right: 200,
+                            top:7
                         ),
                         child: Column(
                           children: [
                             IconButton(
-                              icon: Icon(Icons.edit, color: Color(0xff6D6298)),
+                              icon: Icon(Icons.edit, color: Colors.blue[900].withOpacity(0.9),),
                               onPressed: () =>
                                   _navigateToDoctor(context, items[index]),
                             ),
                             IconButton(
                                 icon: Icon(
                                   Icons.delete,
-                                  color: Color(0xff6D6298),
+                                  color: Colors.blue[900].withOpacity(0.9),
                                 ),
                                 onPressed: () =>
                                     _deleteDoctor(context, items[index], index))
@@ -259,8 +260,8 @@ class stateSpc_Doctors extends State<Spc_Doctors> {
                       ),
                     )
                   ],
-                );
-               // : Center(child: Text('لايوجد أطباء في هذا الاختصاص'),);
+                )
+                : Center();
               }),
         ),
       ]),
@@ -274,7 +275,7 @@ class stateSpc_Doctors extends State<Spc_Doctors> {
           onPressed: () {
             _createNewDoctor(context);
           },
-          backgroundColor: Color(0xff6D6298),
+          backgroundColor: Colors.blue[900].withOpacity(0.9),
         ),
       ),
       bottomNavigationBar: BottomNavyBar(
@@ -288,11 +289,15 @@ class stateSpc_Doctors extends State<Spc_Doctors> {
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => map()));
           else if (_currentIndex == 2)
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => Home(UserName)));
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute<void>(builder: (_) => Home(UserName)),
+                    (Route<dynamic> route) => false
+            );
           else if (_currentIndex == 3)
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => LoginScreen()));
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute<void>(builder: (_) => LoginScreen()),
+                    (Route<dynamic> route) => false
+            );
         },
         items: <BottomNavyBarItem>[
           BottomNavyBarItem(
@@ -358,7 +363,7 @@ class stateSpc_Doctors extends State<Spc_Doctors> {
     String result = await Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => AddDoctors(Doctor('', '', '', '', '', '',))),
+          builder: (context) => AddDoctors(Doctor('', '', '', '', '', '',''))),
     );
 
     if (result == 'save') {

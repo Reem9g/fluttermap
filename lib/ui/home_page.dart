@@ -6,6 +6,7 @@ import 'package:flutter_app_mab/ui/pharmacy.dart';
 import 'package:flutter_app_mab/ui/laboratory.dart';
 import 'package:flutter_app_mab/ui/center.dart';
 import 'package:flutter_app_mab/ui/doctor.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:sqflite/sqflite.dart';
 import 'logIn.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -144,7 +145,7 @@ class Home_HomeState extends State<Home> {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: Container(
-        height: MediaQuery.of(context).size.height - 163,
+        height: MediaQuery.of(context).size.height - 220,
         child: Stack(
                     children: <Widget>[
                       Padding(
@@ -303,11 +304,15 @@ class Home_HomeState extends State<Home> {
           if(_currentIndex == 1)
             Navigator.push(context, MaterialPageRoute(builder: (context) => map()));
           else if (_currentIndex == 2)
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => Home(UserName)));
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute<void>(builder: (_) => Home(UserName)),
+                    (Route<dynamic> route) => false
+            );
           else if (_currentIndex == 3)
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => LoginScreen()));
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute<void>(builder: (_) => LoginScreen()),
+                    (Route<dynamic> route) => false
+            );
         },
         items: <BottomNavyBarItem>[
           BottomNavyBarItem(

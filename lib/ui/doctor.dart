@@ -2,6 +2,7 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mab/model/cardModel.dart';
 import 'package:flutter_app_mab/ui/spcialized.dart';
+import 'package:flutter_app_mab/ui/topRatedList.dart';
 import 'carouselSlider.dart';
 import 'home_page.dart';
 import 'logIn.dart';
@@ -436,100 +437,139 @@ class stateD_details extends State<D_details> {
         ),
       ),
       backgroundColor: Colors.white,
-      body: Column(
-       // crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Container(
-            padding: EdgeInsets.only(bottom: 10,top:15),
-           // alignment: Alignment.centerLeft,
-            child: Text(
-              "! اهتم بصحتك جيداً",
-              textAlign: TextAlign.right,
-              style: GoogleFonts.lato(
-                  color: Colors.blue[800],
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20),
-            ),
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            child: Carouselslider(),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Container(
-            height: 150,
-            padding: EdgeInsets.only(top: 14),
-            child: ListView.builder(
-              physics: ClampingScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.symmetric(horizontal: 20.0),
-              itemCount: cards.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  margin: EdgeInsets.only(right: 14),
+      body: SafeArea(
+        child: NotificationListener<OverscrollIndicatorNotification> (
+          onNotification: (OverscrollIndicatorNotification overscroll) {
+            overscroll.disallowGlow();
+            return;
+          },
+          child: ListView(
+            physics: ClampingScrollPhysics(),
+            shrinkWrap: true,
+            children:[
+              Column(
+             // crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Container(
+                  padding: EdgeInsets.only(bottom: 10,top:15),
+                 // alignment: Alignment.centerLeft,
+                  child: Text(
+                    "! اهتم بصحتك جيداً",
+                    textAlign: TextAlign.right,
+                    style: GoogleFonts.lato(
+                        color: Colors.blue[800],
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Carouselslider(),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
                   height: 150,
-                  width: 140,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Color(cards[index].cardBackground),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey[400],
-                          blurRadius: 4.0,
-                          spreadRadius: 0.0,
-                          offset: Offset(3, 3),
-                        ),
-                      ]
-                      ),
-                  child: FlatButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  Spc_Doctors(cards[index].doctor,UserName)));
-                    },
-                    shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(20)),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: 16,
-                        ),
-                        Container(
-                          child: CircleAvatar(
-                              backgroundColor: Colors.white,
-                              radius: 29,
-                              child: Icon(
-                                cards[index].cardIcon,
-                                size: 26,
-                                color: Color(cards[index].cardBackground),
-                              )),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          alignment: Alignment.bottomCenter,
-                          child: Text(
-                            cards[index].doctor,
-                            style: GoogleFonts.lato(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600),
+                  padding: EdgeInsets.only(top: 14),
+                  child: ListView.builder(
+                    physics: ClampingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    padding: EdgeInsets.symmetric(horizontal: 20.0),
+                    itemCount: cards.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        margin: EdgeInsets.only(right: 14),
+                        height: 150,
+                        width: 140,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Color(cards[index].cardBackground),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey[400],
+                                blurRadius: 4.0,
+                                spreadRadius: 0.0,
+                                offset: Offset(3, 3),
+                              ),
+                            ]
+                            ),
+                        child: FlatButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        Spc_Doctors(cards[index].doctor,UserName)));
+                          },
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(20)),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                height: 16,
+                              ),
+                              Container(
+                                child: CircleAvatar(
+                                    backgroundColor: Colors.white,
+                                    radius: 29,
+                                    child: Icon(
+                                      cards[index].cardIcon,
+                                      size: 26,
+                                      color: Color(cards[index].cardBackground),
+                                    )),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Container(
+                                alignment: Alignment.bottomCenter,
+                                child: Text(
+                                  cards[index].doctor,
+                                  style: GoogleFonts.lato(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
+                      );
+                    },
                   ),
-                );
-              },
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 215),
+                 // alignment: Alignment.topLeft,
+                  child: Text(
+                    "أبرز الأطباء",
+                   // textAlign: TextAlign.right,
+                    style: GoogleFonts.lato(
+                        color: Colors.blue[800],
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 15, right: 15),
+                  child: TopRatedList(UserName),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+              ],
             ),
+    ]
           ),
-        ],
+        ),
       ),
       bottomNavigationBar:  BottomNavyBar(
         selectedIndex: _currentIndex,
@@ -541,11 +581,15 @@ class stateD_details extends State<D_details> {
           if(_currentIndex == 1)
             Navigator.push(context, MaterialPageRoute(builder: (context) => map()));
           else if (_currentIndex == 2)
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => Home(UserName)));
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute<void>(builder: (_) => Home(UserName)),
+                    (Route<dynamic> route) => false
+            );
           else if (_currentIndex == 3)
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => LoginScreen()));
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute<void>(builder: (_) => LoginScreen()),
+                    (Route<dynamic> route) => false
+            );
         },
         items: <BottomNavyBarItem>[
           BottomNavyBarItem(
